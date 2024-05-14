@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
-import { rules } from 'src/utils/rules'
+import { getRules } from 'src/utils/rules'
 
 interface FormData {
   email: string
@@ -10,14 +10,24 @@ interface FormData {
 
 const Register = () => {
   const {
+    watch, //thằng này cùi ỉa làm component re-render
     register, //callback cung cấp thông tin cho react-hook-form
     handleSubmit,
+    getValues,
     formState: { errors } //bắt lỗi ở errors này
   } = useForm<FormData>()
 
-  const onSubmit = handleSubmit((data) => {
-    console.log(data)
-  })
+  const rules = getRules(getValues)
+
+  const onSubmit = handleSubmit(
+    (data) => {
+      // console.log(data)
+    },
+    (data) => {
+      const password = getValues('password')
+      console.log(password)
+    }
+  )
 
   return (
     <div className='bg-orange'>
@@ -45,6 +55,7 @@ const Register = () => {
               <div className='mt-2'>
                 <input
                   type='password'
+                  autoComplete='on'
                   className='p-3 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm foucs:shadow-sm'
                   placeholder='Password'
                   {...register('password', rules.password)}
@@ -56,6 +67,7 @@ const Register = () => {
               <div className='mt-2'>
                 <input
                   type='password'
+                  autoComplete='on'
                   className='p-3 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm foucs:shadow-sm'
                   placeholder='Confirm password'
                   {...register('confirm_password', rules.confirm_password)}

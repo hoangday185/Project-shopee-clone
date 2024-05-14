@@ -34,6 +34,7 @@ const Login = () => {
               <div className='mt-3'>
                 <input
                   type='password'
+                  autoComplete='on'
                   name='password'
                   className='p-3 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm foucs:shadow-sm'
                   placeholder='Password'
