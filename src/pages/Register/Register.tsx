@@ -1,33 +1,25 @@
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
-import { getRules } from 'src/utils/rules'
+import Input from 'src/components/Input'
+import { Schema, schema } from 'src/utils/rules'
+import { yupResolver } from '@hookform/resolvers/yup'
 
-interface FormData {
-  email: string
-  password: string
-  confirm_password: string
-}
+type FormData = Schema
 
-const Register = () => {
+const Register = (): JSX.Element => {
   const {
     watch, //thằng này cùi ỉa làm component re-render
     register, //callback cung cấp thông tin cho react-hook-form
     handleSubmit,
     getValues,
     formState: { errors } //bắt lỗi ở errors này
-  } = useForm<FormData>()
+  } = useForm<FormData>({
+    resolver: yupResolver(schema)
+  })
 
-  const rules = getRules(getValues)
-
-  const onSubmit = handleSubmit(
-    (data) => {
-      // console.log(data)
-    },
-    (data) => {
-      const password = getValues('password')
-      console.log(password)
-    }
-  )
+  const onSubmit = handleSubmit((data) => {
+    // console.log(data)
+  })
 
   return (
     <div className='bg-orange'>
@@ -40,42 +32,33 @@ const Register = () => {
               noValidate
             >
               <div className='text-2xl'>Đăng ký</div>
-              <div className='mt-8'>
-                <input
-                  type='email'
-                  className='p-3 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm foucs:shadow-sm'
-                  placeholder='Email'
-                  {...register('email', rules.email)} //react hook form tự override lại name của tag input do khi chạy register
-                  //nó sẽ trả và 1 field name tương tự
-                />
-                <div className='mt-1 text-red-600 min-h-[1.25rem] text-sm'>
-                  {errors.email?.message}
-                </div>
-              </div>
-              <div className='mt-2'>
-                <input
-                  type='password'
-                  autoComplete='on'
-                  className='p-3 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm foucs:shadow-sm'
-                  placeholder='Password'
-                  {...register('password', rules.password)}
-                />
-                <div className='mt-1 text-red-600 min-h-[1.25rem] text-sm'>
-                  {errors.password?.message}
-                </div>
-              </div>
-              <div className='mt-2'>
-                <input
-                  type='password'
-                  autoComplete='on'
-                  className='p-3 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm foucs:shadow-sm'
-                  placeholder='Confirm password'
-                  {...register('confirm_password', rules.confirm_password)}
-                />
-                <div className='mt-1 text-red-600 min-h-[1.25rem] text-sm'>
-                  {errors.confirm_password?.message}
-                </div>
-              </div>
+              <Input
+                name='email'
+                register={register}
+                placeholder='Email'
+                type='email'
+                className='mt-8'
+                errorMessage={errors.email?.message}
+              />
+
+              <Input
+                name='password'
+                register={register}
+                placeholder='Password'
+                type='password'
+                className='mt-2'
+                errorMessage={errors.password?.message}
+                autoComplete='on'
+              />
+              <Input
+                name='confirm_password'
+                register={register}
+                placeholder='Confirm password'
+                type='password'
+                className='mt-2'
+                errorMessage={errors.confirm_password?.message}
+                autoComplete='on'
+              />
               <div className='mt-2'>
                 <button
                   type='submit'
