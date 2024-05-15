@@ -6,6 +6,8 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation } from '@tanstack/react-query'
 import { registerAccount } from 'src/apis/auth.api'
 import { omit } from 'lodash'
+import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
+import { ResponseApi } from 'src/@types/utils.type'
 
 type FormData = Schema
 
@@ -14,6 +16,7 @@ const Register = (): JSX.Element => {
     //watch, //thằng này cùi ỉa làm component re-render
     register, //callback cung cấp thông tin cho react-hook-form
     handleSubmit,
+    setError, //dùng method của react hook form để set lỗi
     //getValues
     formState: { errors } //bắt lỗi ở errors này
   } = useForm<FormData>({
@@ -30,6 +33,39 @@ const Register = (): JSX.Element => {
     registerMutation.mutate(body, {
       onSuccess: (data) => {
         console.log(data)
+      },
+      onError: (error) => {
+        if (
+          isAxiosUnprocessableEntityError<
+            ResponseApi<Omit<FormData, 'confirm_password'>>
+          >(error)
+        ) {
+          const formError = error.response?.data.data
+
+          // if (formError) {
+          //   Object.keys(formError).forEach((key) => {
+          //     setError(key as keyof Omit<FormData, 'confirm_password'>, {
+          //       message:
+          //         formError[key as keyof Omit<FormData, 'confirm_password'>],
+          //       type: 'Server'
+          //     })
+          //   })
+          // }
+
+          if (formError?.email) {
+            setError('email', {
+              message: formError.email,
+              type: 'Server'
+            })
+          }
+
+          if (formError?.password) {
+            setError('password', {
+              message: formError.password,
+              type: 'Server'
+            })
+          }
+        }
       }
     })
   })
