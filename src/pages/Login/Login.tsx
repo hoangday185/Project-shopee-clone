@@ -1,15 +1,63 @@
+import { yupResolver } from '@hookform/resolvers/yup'
+import { useMutation } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
+import { ResponseApi } from 'src/@types/utils.type'
+import { login } from 'src/apis/auth.api'
+import Input from 'src/components/Input'
+import { Schema, loginSchema, schema } from 'src/utils/rules'
+import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
+
+type FormData = Omit<Schema, 'confirm_password'>
 
 const Login = () => {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors }
-  } = useForm()
+  } = useForm<FormData>({
+    resolver: yupResolver(loginSchema)
+  })
+
+  const loginMutation = useMutation({
+    mutationFn: (body: FormData) => login(body)
+  })
 
   const onSubmit = handleSubmit((data) => {
-    console.log(data)
+    loginMutation.mutate(data, {
+      onSuccess: (data) => {
+        console.log(data)
+      },
+      onError: (error) => {
+        if (isAxiosUnprocessableEntityError<ResponseApi<FormData>>(error)) {
+          const formError = error.response?.data.data
+
+          if (formError) {
+            Object.keys(formError).forEach((key) => {
+              setError(key as keyof FormData, {
+                message: formError[key as keyof FormData],
+                type: 'Server'
+              })
+            })
+          }
+
+          // if (formError?.email) {
+          //   setError('email', {
+          //     message: formError.email,
+          //     type: 'Server'
+          //   })
+          // }
+
+          // if (formError?.password) {
+          //   setError('password', {
+          //     message: formError.password,
+          //     type: 'Server'
+          //   })
+          // }
+        }
+      }
+    })
   })
 
   return (
@@ -20,27 +68,27 @@ const Login = () => {
             <form
               className='p-10 rounded bg-white shadow-sm'
               onSubmit={onSubmit}
+              noValidate
             >
               <div className='text-2xl'>Đăng nhập</div>
-              <div className='mt-8'>
-                <input
-                  type='email'
-                  name='email'
-                  className='p-3 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm foucs:shadow-sm'
-                  placeholder='Email'
-                />
-                <div className='mt-1 text-red-600 min-h-[1rem] text-sm'></div>
-              </div>
-              <div className='mt-3'>
-                <input
-                  type='password'
-                  autoComplete='on'
-                  name='password'
-                  className='p-3 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm foucs:shadow-sm'
-                  placeholder='Password'
-                />
-                <div className='mt-1 text-red-600 min-h-[1rem] text-sm'></div>
-              </div>
+              <Input
+                name='email'
+                register={register}
+                placeholder='Email'
+                type='email'
+                className='mt-8'
+                errorMessage={errors.email?.message}
+              />
+
+              <Input
+                name='password'
+                register={register}
+                placeholder='Password'
+                type='password'
+                className='mt-2'
+                errorMessage={errors.password?.message}
+                autoComplete='on'
+              />
               <div className='mt-3'>
                 <button
                   type='submit'
