@@ -19,10 +19,10 @@ module.exports = {
       addComponents({
         '.container': {
           maxWidth: theme('columns.7xl'),
-          maginLeft: 'auto',
+          marginLeft: 'auto',
           marginRight: 'auto',
-          paddingLeft: theme('spacing.4'), //1 rem
-          paddingRight: theme('spacing.4') //1 rem
+          paddingLeft: theme('spacing.4'),
+          paddingRight: theme('spacing.4')
         }
       })
     })
