@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import { ResponseApi } from 'src/@types/utils.type'
 import { login } from 'src/apis/auth.api'
 import Input from 'src/components/Input'
-import { Schema, loginSchema, schema } from 'src/utils/rules'
+import { Schema, loginSchema } from 'src/utils/rules'
 import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
 
 type FormData = Omit<Schema, 'confirm_password'>

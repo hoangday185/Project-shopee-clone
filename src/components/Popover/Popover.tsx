@@ -1,6 +1,7 @@
 import {
   FloatingArrow,
   FloatingPortal,
+  Placement,
   arrow,
   offset,
   shift,
@@ -15,6 +16,7 @@ interface PopoverProps {
   className?: string
   as?: ElementType //custom tag bọc popover
   initialOpen?: boolean
+  placement?: Placement
 }
 
 const Popover = ({
@@ -22,12 +24,14 @@ const Popover = ({
   className,
   renderPopover,
   as: Element = 'div',
-  initialOpen
+  initialOpen,
+  placement = 'bottom-end'
 }: PopoverProps) => {
   const [open, setOpen] = useState<boolean>(initialOpen || false)
   const arrowRef = useRef(null)
   const { x, y, refs, context, strategy } = useFloating({
-    middleware: [offset(6), shift(), arrow({ element: arrowRef })]
+    middleware: [offset(6), shift(), arrow({ element: arrowRef })],
+    placement: placement
   })
 
   const id = useId()
