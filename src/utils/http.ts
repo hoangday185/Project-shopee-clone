@@ -1,10 +1,20 @@
 import axios, { AxiosError, type AxiosInstance } from 'axios'
 import HttpStatusCode from 'src/constants/httpStatusCode.enum'
 import { toast } from 'react-toastify'
+import { AuthResponse } from 'src/@types/auth.types'
+import {
+  clearAccessTokenFromLS,
+  getAccessTokenFromLS,
+  saveAccessTokenToLS
+} from './auth'
 
 class Http {
   instance: AxiosInstance
+  private accessToken: string
   constructor() {
+    this.accessToken = getAccessTokenFromLS() //khởi tạo sẵn 1 biến access token bởi
+    //vì khi mới vào app của chúng ta thì constructor này sẽ chạy đầu tiên và mỗi lần request lên thì ta sẽ có sẵn biến này
+    //đỡ phải vào ls để lấy ra giúp tăng performance
     this.instance = axios.create({
       baseURL: 'https://api-ecom.duthanhduoc.com/',
       timeout: 10000,
@@ -12,9 +22,30 @@ class Http {
         'Content-Type': 'application/json'
       }
     })
+    this.instance.interceptors.request.use(
+      (config) => {
+        if (this.accessToken) {
+          config.headers.Authorization = `${this.accessToken}`
+          return config
+        }
+        return config
+      },
+      (error) => {
+        return Promise.reject(error)
+      }
+    )
     this.instance.interceptors.response.use(
-      function (response) {
-        return response.data
+      (response) => {
+        console.log(response)
+        const { url } = response.config
+        if (url === 'login' || url === 'register') {
+          this.accessToken = (response.data as AuthResponse).data.access_token
+          saveAccessTokenToLS(this.accessToken)
+        } else if (url === '/logout') {
+          this.accessToken = ''
+          clearAccessTokenFromLS()
+        }
+        return response
       },
       function (error: AxiosError) {
         if (error.response?.status !== HttpStatusCode.UnprocessableEntity) {
