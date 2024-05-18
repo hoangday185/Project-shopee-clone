@@ -10,11 +10,13 @@ import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
 import { ErrorResponse } from 'src/@types/utils.type'
 import { useContext } from 'react'
 import { AppContext } from 'src/contexts/app.context'
+import Button from 'src/components/Button/Button'
+import path from 'src/constants/path'
 
 type FormData = Schema
 
 const Register = (): JSX.Element => {
-  const { setIsAuthenticated } = useContext(AppContext)
+  const { setIsAuthenticated, setProfile } = useContext(AppContext)
   const navigate = useNavigate()
   const {
     //watch, //thằng này cùi ỉa làm component re-render
@@ -35,8 +37,9 @@ const Register = (): JSX.Element => {
   const onSubmit = handleSubmit((data) => {
     const body = omit(data, ['confirm_password'])
     registerMutation.mutate(body, {
-      onSuccess: () => {
+      onSuccess: (data) => {
         setIsAuthenticated(true)
+        setProfile(data.data.data.user)
         navigate('/')
       },
       onError: (error) => {
@@ -114,16 +117,18 @@ const Register = (): JSX.Element => {
                 autoComplete='on'
               />
               <div className='mt-2'>
-                <button
+                <Button
+                  isLoading={registerMutation.isPending}
+                  disabled={registerMutation.isPending}
                   type='submit'
-                  className='w-full text-center py-4 px-2 uppercase bg-red-500 text-white text-sm hover:bg-red-600'
+                  className='w-full text-center py-4 px-2 uppercase bg-red-500 text-white text-sm hover:bg-red-600 flex justify-center items-center'
                 >
                   Đăng ký
-                </button>
+                </Button>
               </div>
               <div className='flex items-cente justify-center mt-8'>
                 <span className='text-gray-400'>Bạn đã có tài khoản?</span>
-                <Link className='text-red-400 ml-1' to='/login'>
+                <Link className='text-red-400 ml-1' to={path.login}>
                   Đăng nhập
                 </Link>
               </div>

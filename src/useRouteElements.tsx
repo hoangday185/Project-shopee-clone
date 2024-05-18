@@ -7,6 +7,7 @@ import MainLayout from './layouts/MainLayout'
 import Profile from './pages/Profile'
 import { AppContext } from './contexts/app.context'
 import { useContext } from 'react'
+import path from './constants/path'
 
 function ProtectedRoute() {
   const { isAuthenticated } = useContext(AppContext)
@@ -22,7 +23,7 @@ const useRouteElements = () => {
   const routeElements = useRoutes([
     //route này phải sắp xếp theo thứ tự, luôn check ở cái đầu tiên,để fix thì ta set index true là đc
     {
-      path: '/',
+      path: path.home,
       index: true,
       element: (
         <MainLayout>
@@ -35,7 +36,7 @@ const useRouteElements = () => {
       element: <ProtectedRoute />,
       children: [
         {
-          path: '/profile',
+          path: path.profile,
           element: (
             <MainLayout>
               <Profile />
@@ -49,7 +50,7 @@ const useRouteElements = () => {
       element: <RejectedRoute />,
       children: [
         {
-          path: '/login',
+          path: path.login,
           element: (
             <RegisterLayout>
               <Login />
@@ -57,7 +58,7 @@ const useRouteElements = () => {
           )
         },
         {
-          path: '/register',
+          path: path.register,
           element: (
             <RegisterLayout>
               <Register />

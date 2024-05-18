@@ -3,9 +3,10 @@ import HttpStatusCode from 'src/constants/httpStatusCode.enum'
 import { toast } from 'react-toastify'
 import { AuthResponse } from 'src/@types/auth.types'
 import {
-  clearAccessTokenFromLS,
+  clearLocalStorage,
   getAccessTokenFromLS,
-  saveAccessTokenToLS
+  setAccessTokenToLS,
+  setProfileToLS
 } from './auth'
 
 class Http {
@@ -36,14 +37,14 @@ class Http {
     )
     this.instance.interceptors.response.use(
       (response) => {
-        console.log(response)
         const { url } = response.config
         if (url === 'login' || url === 'register') {
           this.accessToken = (response.data as AuthResponse).data.access_token
-          saveAccessTokenToLS(this.accessToken)
-        } else if (url === '/logout') {
+          setAccessTokenToLS(this.accessToken)
+          setProfileToLS((response.data as AuthResponse).data.user)
+        } else if (url === 'logout') {
           this.accessToken = ''
-          clearAccessTokenFromLS()
+          clearLocalStorage()
         }
         return response
       },

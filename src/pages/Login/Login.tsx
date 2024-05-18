@@ -5,7 +5,9 @@ import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 import { ErrorResponse } from 'src/@types/utils.type'
 import { login } from 'src/apis/auth.api'
+import Button from 'src/components/Button/Button'
 import Input from 'src/components/Input'
+import path from 'src/constants/path'
 import { AppContext } from 'src/contexts/app.context'
 import { Schema, loginSchema } from 'src/utils/rules'
 import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
@@ -13,7 +15,7 @@ import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
 type FormData = Omit<Schema, 'confirm_password'>
 
 const Login = () => {
-  const { setIsAuthenticated } = useContext(AppContext)
+  const { setIsAuthenticated, setProfile } = useContext(AppContext)
   const navigate = useNavigate()
   const {
     register,
@@ -30,8 +32,9 @@ const Login = () => {
 
   const onSubmit = handleSubmit((data) => {
     loginMutation.mutate(data, {
-      onSuccess: () => {
+      onSuccess: (data) => {
         setIsAuthenticated(true)
+        setProfile(data.data.data.user)
         navigate('/')
       },
       onError: (error) => {
@@ -95,16 +98,18 @@ const Login = () => {
                 autoComplete='on'
               />
               <div className='mt-3'>
-                <button
+                <Button
+                  isLoading={loginMutation.isPending}
+                  disabled={loginMutation.isPending}
                   type='submit'
-                  className='w-full text-center py-4 px-2 uppercase bg-red-500 text-white text-sm hover:bg-red-600'
+                  className='w-full text-center py-4 px-2 uppercase bg-red-500 text-white text-sm hover:bg-red-600 flex justify-center items-center'
                 >
                   Đăng nhập
-                </button>
+                </Button>
               </div>
               <div className='flex items-cente justify-center mt-8'>
                 <span className='text-gray-400'>Bạn chưa có tài khoản?</span>
-                <Link className='text-red-400 ml-1' to='/register'>
+                <Link className='text-red-400 ml-1' to={path.register}>
                   Đăng ký
                 </Link>
               </div>
