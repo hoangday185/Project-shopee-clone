@@ -4,7 +4,7 @@ import { useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 import { ErrorResponse } from 'src/@types/utils.type'
-import { login } from 'src/apis/auth.api'
+import authApi from 'src/apis/auth.api'
 import Button from 'src/components/Button/Button'
 import Input from 'src/components/Input'
 import path from 'src/constants/path'
@@ -27,7 +27,7 @@ const Login = () => {
   })
 
   const loginMutation = useMutation({
-    mutationFn: (body: FormData) => login(body)
+    mutationFn: (body: FormData) => authApi.login(body)
   })
 
   const onSubmit = handleSubmit((data) => {
