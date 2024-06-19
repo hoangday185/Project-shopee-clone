@@ -28,7 +28,7 @@ const Product = ({ product }: ProductProps) => {
             </div>
             <div className='text-orange truncate ml-1'>
               <span className='text-xs'>đ</span>
-              <span>{formatPrice(product.price)}</span>
+              <span className='text-sm'>{formatPrice(product.price)}</span>
             </div>
           </div>
         </div>
