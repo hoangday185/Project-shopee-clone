@@ -9,10 +9,12 @@ import Button from 'src/components/Button/Button'
 import Input from 'src/components/Input'
 import path from 'src/constants/path'
 import { AppContext } from 'src/contexts/app.context'
-import { Schema, loginSchema } from 'src/utils/rules'
+import { Schema, schema } from 'src/utils/rules'
 import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
 
-type FormData = Omit<Schema, 'confirm_password'>
+type FormData = Pick<Schema, 'email' | 'password'>
+
+const loginSchema = schema.pick(['email', 'password'])
 
 const Login = () => {
   const { setIsAuthenticated, setProfile } = useContext(AppContext)

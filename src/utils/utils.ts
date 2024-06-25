@@ -14,3 +14,10 @@ export function isAxiosUnprocessableEntityError<FormError>(
     error.response?.status === HttpStatusCode.UnprocessableEntity
   )
 }
+
+//cu phap -? loai bo undefined cua key optional
+export type NoUndefinedField<T> = {
+  [P in keyof T]-?: NoUndefinedField<Exclude<T[P], null | undefined>>
+}
+
+export type NoUndefinedFieldV2<T> = Exclude<T, undefined | null>

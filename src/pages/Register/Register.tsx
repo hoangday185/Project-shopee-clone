@@ -13,7 +13,7 @@ import Button from 'src/components/Button/Button'
 import path from 'src/constants/path'
 import authApi from 'src/apis/auth.api'
 
-type FormData = Schema
+type FormData = Pick<Schema, 'email' | 'password' | 'confirm_password'>
 
 const Register = (): JSX.Element => {
   const { setIsAuthenticated, setProfile } = useContext(AppContext)
