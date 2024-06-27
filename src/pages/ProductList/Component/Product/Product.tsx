@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Product as ProductType } from 'src/@types/product.types'
 import RatingStar from 'src/components/RatingStar/RatingStar'
+import path from 'src/constants/path'
 import { formatNumberSold, formatPrice } from 'src/utils/formatNumber'
 
 interface ProductProps {
@@ -9,7 +10,7 @@ interface ProductProps {
 
 const Product = ({ product }: ProductProps) => {
   return (
-    <Link to={`${product._id}`}>
+    <Link to={`${path.home}${product._id}`}>
       <div className='bg-white shadow rounded-sm hover:translate-y-[-0.04rem] hover:shadow-md duration-100 transition-transform overflow-hidden'>
         <div className='w-full pt-[100%] relative'>
           <img

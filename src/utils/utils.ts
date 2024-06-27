@@ -21,3 +21,6 @@ export type NoUndefinedField<T> = {
 }
 
 export type NoUndefinedFieldV2<T> = Exclude<T, undefined | null>
+
+export const rateSale = (original: number, sale: number): string =>
+  Math.round(((original - sale) / original) * 100) + '%'
