@@ -11,6 +11,7 @@ module.exports = {
     'plugin:import/typescript',
     'plugin:jsx-a11y/recommended',
     'plugin:@typescript-eslint/recommended',
+    'react-hooks',
     // Disable các rule mà eslint xung đột với prettier.
     // Để cái này ở dưới để nó override các rule phía trên!.
     'eslint-config-prettier',
@@ -39,8 +40,11 @@ module.exports = {
     'react/react-in-jsx-scope': 'off',
     // Cảnh báo khi thẻ <a target='_blank'> mà không có rel="noreferrer"
     'react/jsx-no-target-blank': 'warn',
+
     // Tăng cường một số rule prettier (copy từ file .prettierrc qua)
     '@typescript-eslint/no-unused-vars': 'warn',
+    'react-hooks/rules-of-hooks': 'error',
+    'react-hooks/exhaustive-deps': 'warn',
     'prettier/prettier': [
       'warn',
       {
