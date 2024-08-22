@@ -3,13 +3,14 @@ import { useParams } from 'react-router-dom'
 import productApi from 'src/apis/product.api'
 import RatingStar from 'src/components/RatingStar/RatingStar'
 import { formatNumberSold, formatPrice } from 'src/utils/formatNumber'
-import { rateSale } from 'src/utils/utils'
 import InputNumber from 'src/components/InputNumber'
 import DOMPurify from 'dompurify'
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { generateIdFormNameId, rateSale } from 'src/utils/utils'
 
 const ProductDetail = () => {
-  const { id } = useParams()
+  const { nameId } = useParams()
+  const id = generateIdFormNameId(nameId as string)
   const { data } = useQuery({
     queryKey: ['product', id],
     queryFn: () => productApi.getProductDetail(id as string)
@@ -68,12 +69,10 @@ const ProductDetail = () => {
     //tính top và left
     const top = offsetY * (1 - naturalHeight / rect.height)
     const left = offsetX * (1 - naturalWidth / rect.width)
-    console.log('offset', offsetX, offsetY)
-    console.log('position', top, left)
-    // console.log(top, left)
+    // console.log('offset', offsetX, offsetY)
+    // console.log('position', top, left)
     image.style.top = top + 'px'
     image.style.left = left + 'px'
-    //
   }
 
   const handleRemoveZoom = () => {

@@ -24,3 +24,19 @@ export type NoUndefinedFieldV2<T> = Exclude<T, undefined | null>
 
 export const rateSale = (original: number, sale: number): string =>
   Math.round(((original - sale) / original) * 100) + '%'
+
+export const removeSpecialCharacter = (str: string): string =>
+  // eslint-disable-next-line no-useless-escape
+  str.replace(
+    /!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g,
+    ''
+  )
+
+export const generateNameId = ({ name, id }: { name: string; id: string }) => {
+  return removeSpecialCharacter(name).replace(/\s/g, '-') + `-i-${id}`
+}
+
+export const generateIdFormNameId = (nameId: string): string => {
+  const arr = nameId.split('-i-')
+  return arr[arr.length - 1]
+}
