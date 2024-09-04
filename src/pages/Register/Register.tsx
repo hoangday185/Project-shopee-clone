@@ -26,7 +26,9 @@ const Register = (): JSX.Element => {
     //getValues
     formState: { errors } //bắt lỗi ở errors này
   } = useForm<FormData>({
-    resolver: yupResolver(schema)
+    resolver: yupResolver(
+      schema.pick(['email', 'confirm_password', 'password'])
+    )
   })
 
   const registerMutation = useMutation({

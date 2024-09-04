@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
 import productApi from 'src/apis/product.api'
 import RatingStar from 'src/components/RatingStar/RatingStar'
@@ -10,6 +10,9 @@ import { ProductListConfig } from 'src/@types/product.types'
 import useQueryConfig from 'src/hooks/useQueryConfig'
 import Product from '../ProductList/Component/Product'
 import QuantityController from 'src/components/QuantityController'
+import purchaseApi from 'src/apis/purchase.api'
+import { queryClient } from 'src/main'
+import { purchaseStatus } from 'src/constants/purchase'
 
 const ProductDetail = () => {
   const { nameId } = useParams()
@@ -39,6 +42,11 @@ const ProductDetail = () => {
       setImageActive(product.images[0])
     }
   }, [product])
+
+  const addToCartMutation = useMutation({
+    mutationFn: (body: { product_id: string; buy_count: number }) =>
+      purchaseApi.addToCart(body)
+  })
 
   const onChooseImage = (image: string) => {
     setImageActive(image)
@@ -95,6 +103,22 @@ const ProductDetail = () => {
 
   const handleBuyCount = (value: number) => {
     setBuyCount(value)
+  }
+
+  const addToCart = () => {
+    addToCartMutation.mutate(
+      {
+        product_id: product?._id as string,
+        buy_count: buyCount
+      },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: ['purchases', purchaseStatus.inCart]
+          })
+        }
+      }
+    )
   }
 
   if (!product) return null
@@ -221,7 +245,10 @@ const ProductDetail = () => {
                 </div>
               </div>
               <div className='mt-8 flex items-center'>
-                <button className='flex h-12 items-center justify-center rounded-sm border border-orange bg-orange/10 px-5 capitalize text-orange hover:bg-orange/5'>
+                <button
+                  className='flex h-12 items-center justify-center rounded-sm border border-orange bg-orange/10 px-5 capitalize text-orange hover:bg-orange/5'
+                  onClick={addToCart}
+                >
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
                     fill='none'

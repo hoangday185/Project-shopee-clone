@@ -1,6 +1,6 @@
 import { Link, createSearchParams, useNavigate } from 'react-router-dom'
 import Popover from '../Popover'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import authApi from 'src/apis/auth.api'
 import { AppContext } from 'src/contexts/app.context'
 import { useContext } from 'react'
@@ -10,6 +10,11 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useQueryConfig from 'src/hooks/useQueryConfig'
 import { omit } from 'lodash'
+import { purchaseStatus } from 'src/constants/purchase'
+import purchaseApi from 'src/apis/purchase.api'
+import { PurchaseStatus } from 'src/@types/purchase.types'
+import noproduct from 'src/assets/images/no-product.png'
+import { formatPrice } from 'src/utils/formatNumber'
 
 type FormData = Pick<Schema, 'name'>
 const searchSchema = schema.pick(['name'])
@@ -27,7 +32,6 @@ const Header = () => {
   const nav = useNavigate()
 
   const queryConfig = useQueryConfig()
-  console.log(queryConfig)
 
   const { register, handleSubmit } = useForm<FormData>({
     defaultValues: {
@@ -35,6 +39,22 @@ const Header = () => {
     },
     resolver: yupResolver(searchSchema)
   })
+
+  //bình thường nếu như chúng ta chuyển từ page product list sang page product detail
+  //thì header và footer sẽ bị unmount và mounting again
+  //nhưng do react router thấy rằng xài chung 1 component layout nên nó chỉ re-render lại thôi
+  //khi chuyển trang thì header chỉ bị re-render
+  //chứ ko bị unmount - mounting again
+  //trừ trường hợp logout rồi nhảy sang register layout rồi nhảy vào lại
+  const { data: purchaseInCartData } = useQuery({
+    queryKey: ['purchases', purchaseStatus.inCart],
+    queryFn: () =>
+      purchaseApi.getPurchases({
+        status: purchaseStatus.inCart as PurchaseStatus
+      })
+  })
+
+  const purchaseList = purchaseInCartData?.data.data
 
   const onSubmitSearch = handleSubmit((data) => {
     const query = queryConfig.order
@@ -202,116 +222,51 @@ const Header = () => {
             <Popover
               renderPopover={
                 <div className='bg-white relative shadow-md rounded-sm border border-gray-200 max-w-[400px] text-sm'>
-                  <div className='p-2'>
-                    <div className='text-gray-400 capitalize'>
-                      Sản phẩm mới thêm
-                    </div>
-                    <div className='mt-5'>
-                      <div className='mt-4 flex'>
-                        <div className='flex-shrink-0'>
-                          <img
-                            src='https://down-vn.img.susercontent.com/file/sg-11134201-22110-1tms94q7chjv0f_tn'
-                            alt=''
-                            className='w-11 h-11 object-cover'
-                          />
-                        </div>
-                        <div className='flex-grow ml-2 overflow-hidden'>
-                          <div className='truncate'>
-                            Màn hình máy tính LG 38WN95C-W - 38 - Nano IPS Cong
-                            QHD - VESA Display HDR™ 600 - Thunderbolt™ 3 -
-                            Hàng chính hãng
-                          </div>
-                        </div>
-                        <div className='ml-2 flex-shrink-0'>
-                          <span className='text-orange'>₫31.990.000</span>
-                        </div>
+                  {purchaseList ? (
+                    <div className='p-2'>
+                      <div className='text-gray-400 capitalize'>
+                        Sản phẩm mới thêm
                       </div>
-                      <div className='mt-4 flex'>
-                        <div className='flex-shrink-0'>
-                          <img
-                            src='https://down-vn.img.susercontent.com/file/sg-11134201-22110-1tms94q7chjv0f_tn'
-                            alt=''
-                            className='w-11 h-11 object-cover'
-                          />
-                        </div>
-                        <div className='flex-grow ml-2 overflow-hidden'>
-                          <div className='truncate'>
-                            Màn hình máy tính LG 38WN95C-W - 38 - Nano IPS Cong
-                            QHD - VESA Display HDR™ 600 - Thunderbolt™ 3 -
-                            Hàng chính hãng
+                      <div className='mt-5'>
+                        {purchaseList.map((purchart) => (
+                          <div className='mt-4 flex' key={purchart._id}>
+                            <div className='flex-shrink-0'>
+                              <img
+                                src={purchart.product.image}
+                                alt={purchart.product.name}
+                                className='w-11 h-11 object-cover'
+                              />
+                            </div>
+                            <div className='flex-grow ml-2 overflow-hidden'>
+                              <div className='truncate'>
+                                {purchart.product.name}
+                              </div>
+                            </div>
+                            <div className='ml-2 flex-shrink-0'>
+                              <span className='text-orange'>
+                                đ
+                                {formatPrice(
+                                  purchart.product.price_before_discount
+                                )}
+                              </span>
+                            </div>
                           </div>
-                        </div>
-                        <div className='ml-2 flex-shrink-0'>
-                          <span className='text-orange'>₫31.990.000</span>
-                        </div>
+                        ))}
                       </div>
-                      <div className='mt-4 flex'>
-                        <div className='flex-shrink-0'>
-                          <img
-                            src='https://down-vn.img.susercontent.com/file/sg-11134201-22110-1tms94q7chjv0f_tn'
-                            alt=''
-                            className='w-11 h-11 object-cover'
-                          />
+                      <div className='flex mt-6 items-center justify-between'>
+                        <div className='capitalize text-xs text-gray-500'>
+                          Thêm vào giỏ hàng
                         </div>
-                        <div className='flex-grow ml-2 overflow-hidden'>
-                          <div className='truncate'>
-                            Màn hình máy tính LG 38WN95C-W - 38 - Nano IPS Cong
-                            QHD - VESA Display HDR™ 600 - Thunderbolt™ 3 -
-                            Hàng chính hãng
-                          </div>
-                        </div>
-                        <div className='ml-2 flex-shrink-0'>
-                          <span className='text-orange'>₫31.990.000</span>
-                        </div>
-                      </div>
-                      <div className='mt-4 flex'>
-                        <div className='flex-shrink-0'>
-                          <img
-                            src='https://down-vn.img.susercontent.com/file/sg-11134201-22110-1tms94q7chjv0f_tn'
-                            alt=''
-                            className='w-11 h-11 object-cover'
-                          />
-                        </div>
-                        <div className='flex-grow ml-2 overflow-hidden'>
-                          <div className='truncate'>
-                            Màn hình máy tính LG 38WN95C-W - 38 - Nano IPS Cong
-                            QHD - VESA Display HDR™ 600 - Thunderbolt™ 3 -
-                            Hàng chính hãng
-                          </div>
-                        </div>
-                        <div className='ml-2 flex-shrink-0'>
-                          <span className='text-orange'>₫31.990.000</span>
-                        </div>
-                      </div>
-                      <div className='mt-4 flex'>
-                        <div className='flex-shrink-0'>
-                          <img
-                            src='https://down-vn.img.susercontent.com/file/sg-11134201-22110-1tms94q7chjv0f_tn'
-                            alt=''
-                            className='w-11 h-11 object-cover'
-                          />
-                        </div>
-                        <div className='flex-grow ml-2 overflow-hidden'>
-                          <div className='truncate'>
-                            Màn hình máy tính LG 38WN95C-W - 38 - Nano IPS Cong
-                            QHD - VESA Display HDR™ 600 - Thunderbolt™ 3 -
-                            Hàng chính hãng
-                          </div>
-                        </div>
-                        <div className='ml-2 flex-shrink-0'>
-                          <span className='text-orange'>₫31.990.000</span>
-                        </div>
+                        <button className='capitalize bg-orange hover:bg-opacity-90 px-4 py-2 rounded-sm text-white'>
+                          Xem giỏ hàng
+                        </button>
                       </div>
                     </div>
-                    <div className='flex mt-6 items-center justify-between'>
-                      <div className='capitalize text-xs text-gray-500'>
-                        Thêm vào giỏ hàng
-                      </div>
-                      <button className='capitalize bg-orange hover:bg-opacity-90 px-4 py-2 rounded-sm text-white'>
-                        Xem giỏ hàng
-                      </button>
+                  ) : (
+                    <div className='p-2'>
+                      <img src={noproduct} alt='no purchase' />
                     </div>
-                  </div>
+                  )}
                 </div>
               }
             >
