@@ -18,7 +18,7 @@ import { formatPrice } from 'src/utils/formatNumber'
 
 type FormData = Pick<Schema, 'name'>
 const searchSchema = schema.pick(['name'])
-
+const MAX_PURCHASE = 5
 const Header = () => {
   const { setIsAuthenticated, isAuthenticated, setProfile, profile } =
     useContext(AppContext)
@@ -228,8 +228,8 @@ const Header = () => {
                         Sản phẩm mới thêm
                       </div>
                       <div className='mt-5'>
-                        {purchaseList.map((purchart) => (
-                          <div className='mt-4 flex' key={purchart._id}>
+                        {purchaseList.slice(0, MAX_PURCHASE).map((purchart) => (
+                          <div className='mt-4 py-2 flex' key={purchart._id}>
                             <div className='flex-shrink-0'>
                               <img
                                 src={purchart.product.image}
@@ -263,8 +263,13 @@ const Header = () => {
                       </div>
                     </div>
                   ) : (
-                    <div className='p-2'>
-                      <img src={noproduct} alt='no purchase' />
+                    <div className='p-2 flex justify-center items-center h-[300px] w-[300px]'>
+                      <img
+                        src={noproduct}
+                        alt='no purchase'
+                        className='h-24 w-24'
+                      />
+                      <div className='mt-3 capitalize'>Chưa có sản phẩm</div>
                     </div>
                   )}
                 </div>

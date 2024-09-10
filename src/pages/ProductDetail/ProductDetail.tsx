@@ -13,6 +13,7 @@ import QuantityController from 'src/components/QuantityController'
 import purchaseApi from 'src/apis/purchase.api'
 import { queryClient } from 'src/main'
 import { purchaseStatus } from 'src/constants/purchase'
+import { toast } from 'react-toastify'
 
 const ProductDetail = () => {
   const { nameId } = useParams()
@@ -112,7 +113,8 @@ const ProductDetail = () => {
         buy_count: buyCount
       },
       {
-        onSuccess: () => {
+        onSuccess: (data) => {
+          toast.success(data.data.message)
           queryClient.invalidateQueries({
             queryKey: ['purchases', purchaseStatus.inCart]
           })
