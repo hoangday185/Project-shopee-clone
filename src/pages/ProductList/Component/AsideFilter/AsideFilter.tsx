@@ -12,6 +12,7 @@ import { Schema, schema } from 'src/utils/rules'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { NoUndefinedField } from 'src/utils/utils'
 import { ObjectSchema } from 'yup'
+import InputV2 from 'src/components/InputV2'
 interface Props {
   queryConfig: QueryConfig
   categories: Category[]
@@ -154,7 +155,7 @@ const AsideFilter = ({ queryConfig, categories }: Props) => {
         <div>Khoảng giá</div>
         <form className='mt-2' onSubmit={onSubmit}>
           <div className='flex items-start'>
-            <Controller
+            {/* <Controller
               control={control}
               name='price_min'
               render={({ field }) => {
@@ -174,7 +175,21 @@ const AsideFilter = ({ queryConfig, categories }: Props) => {
                   />
                 )
               }}
+            /> */}
+
+            <InputV2
+              name='price_min'
+              control={control}
+              placeholder='đ TỪ'
+              type='number'
+              className='grow'
+              classNameError='hidden'
+              classNameInput='p-1 text-sm w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
+              onChange={() => {
+                trigger('price_max')
+              }}
             />
+
             <div className='mx-2 mt-2 shrink-0'>-</div>
             <Controller
               control={control}
@@ -190,7 +205,7 @@ const AsideFilter = ({ queryConfig, categories }: Props) => {
                     {...field}
                     onChange={(event) => {
                       field.onChange(event)
-                      trigger('price_min')
+                      trigger('price_max')
                     }}
                   />
                 )
