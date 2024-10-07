@@ -155,7 +155,7 @@ const AsideFilter = ({ queryConfig, categories }: Props) => {
         <div>Khoảng giá</div>
         <form className='mt-2' onSubmit={onSubmit}>
           <div className='flex items-start'>
-            {/* <Controller
+            <Controller
               control={control}
               name='price_min'
               render={({ field }) => {
@@ -175,9 +175,9 @@ const AsideFilter = ({ queryConfig, categories }: Props) => {
                   />
                 )
               }}
-            /> */}
+            />
 
-            <InputV2
+            {/* <InputV2
               name='price_min'
               control={control}
               placeholder='đ TỪ'
@@ -188,7 +188,7 @@ const AsideFilter = ({ queryConfig, categories }: Props) => {
               onChange={() => {
                 trigger('price_max')
               }}
-            />
+            /> */}
 
             <div className='mx-2 mt-2 shrink-0'>-</div>
             <Controller
