@@ -12,7 +12,7 @@ import Product from '../ProductList/Component/Product'
 import QuantityController from 'src/components/QuantityController'
 import purchaseApi from 'src/apis/purchase.api'
 import { queryClient } from 'src/main'
-import { purchaseStatus } from 'src/constants/purchase'
+import { purchasesStatus } from 'src/constants/purchase'
 import { toast } from 'react-toastify'
 
 const ProductDetail = () => {
@@ -116,7 +116,7 @@ const ProductDetail = () => {
         onSuccess: (data) => {
           toast.success(data.data.message)
           queryClient.invalidateQueries({
-            queryKey: ['purchases', purchaseStatus.inCart]
+            queryKey: ['purchases', purchasesStatus.inCart]
           })
         }
       }
