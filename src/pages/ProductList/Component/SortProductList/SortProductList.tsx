@@ -15,31 +15,26 @@ const SortProductList = ({ queryConfig, pageSize }: Props) => {
   const page = Number(queryConfig.page)
   const { sort_by = sortBy.createdAt, order } = queryConfig
   const navigate = useNavigate()
-  const isActiveSortBy = (
-    sortByValue: Exclude<ProductListConfig['sort_by'], undefined>
-  ) => {
+  const isActiveSortBy = (sortByValue: Exclude<ProductListConfig['sort_by'], undefined>) => {
     return sort_by === sortByValue
   }
 
-  const handleSort =
-    (sortByValue: Exclude<ProductListConfig['sort_by'], undefined>) => () => {
-      navigate({
-        pathname: path.home,
-        search: createSearchParams(
-          omit(
-            {
-              ...queryConfig,
-              sort_by: sortByValue
-            },
-            ['order']
-          )
-        ).toString() //loại  bỏ order khỏi query param
-      })
-    }
+  const handleSort = (sortByValue: Exclude<ProductListConfig['sort_by'], undefined>) => () => {
+    navigate({
+      pathname: path.home,
+      search: createSearchParams(
+        omit(
+          {
+            ...queryConfig,
+            sort_by: sortByValue
+          },
+          ['order']
+        )
+      ).toString() //loại  bỏ order khỏi query param
+    })
+  }
 
-  const handlePriceOrder = (
-    orderValue: Exclude<ProductListConfig['order'], undefined>
-  ) => {
+  const handlePriceOrder = (orderValue: Exclude<ProductListConfig['order'], undefined>) => {
     navigate({
       pathname: path.home,
       search: createSearchParams({
@@ -56,12 +51,8 @@ const SortProductList = ({ queryConfig, pageSize }: Props) => {
           <div>Sắp xếp theo</div>
           <button
             className={classNames('h-8 px-4 capitalize text-sm  text-center', {
-              'bg-orange text-white hover:bg-orange/80': isActiveSortBy(
-                sortBy.view
-              ),
-              'bg-white text-black hover:bg-slate-100': !isActiveSortBy(
-                sortBy.view
-              )
+              'bg-orange text-white hover:bg-orange/80': isActiveSortBy(sortBy.view),
+              'bg-white text-black hover:bg-slate-100': !isActiveSortBy(sortBy.view)
             })}
             onClick={handleSort(sortBy.view)}
           >
@@ -69,12 +60,8 @@ const SortProductList = ({ queryConfig, pageSize }: Props) => {
           </button>
           <button
             className={classNames('h-8 px-4 capitalize text-sm  text-center', {
-              'bg-orange text-white hover:bg-orange/80': isActiveSortBy(
-                sortBy.createdAt
-              ),
-              'bg-white text-black hover:bg-slate-100': !isActiveSortBy(
-                sortBy.createdAt
-              )
+              'bg-orange text-white hover:bg-orange/80': isActiveSortBy(sortBy.createdAt),
+              'bg-white text-black hover:bg-slate-100': !isActiveSortBy(sortBy.createdAt)
             })}
             onClick={handleSort(sortBy.createdAt)}
           >
@@ -82,38 +69,20 @@ const SortProductList = ({ queryConfig, pageSize }: Props) => {
           </button>
           <button
             className={classNames('h-8 px-4 capitalize text-sm  text-center', {
-              'bg-orange text-white hover:bg-orange/80': isActiveSortBy(
-                sortBy.sold
-              ),
-              'bg-white text-black hover:bg-slate-100': !isActiveSortBy(
-                sortBy.sold
-              )
+              'bg-orange text-white hover:bg-orange/80': isActiveSortBy(sortBy.sold),
+              'bg-white text-black hover:bg-slate-100': !isActiveSortBy(sortBy.sold)
             })}
             onClick={handleSort(sortBy.sold)}
           >
             Bán chạy
           </button>
           <select
-            className={classNames(
-              'h-8 px-4 capitalize  text-left outline-none',
-              {
-                'bg-orange text-white hover:bg-orange/80': isActiveSortBy(
-                  sortBy.price
-                ),
-                'bg-white text-black hover:bg-slate-100': !isActiveSortBy(
-                  sortBy.price
-                )
-              }
-            )}
+            className={classNames('h-8 px-4 capitalize  text-left outline-none', {
+              'bg-orange text-white hover:bg-orange/80': isActiveSortBy(sortBy.price),
+              'bg-white text-black hover:bg-slate-100': !isActiveSortBy(sortBy.price)
+            })}
             value={order || ''}
-            onChange={(event) =>
-              handlePriceOrder(
-                event.target.value as Exclude<
-                  ProductListConfig['order'],
-                  undefined
-                >
-              )
-            }
+            onChange={(event) => handlePriceOrder(event.target.value as Exclude<ProductListConfig['order'], undefined>)}
           >
             <option className='bg-white text-black' value='' disabled>
               Giá
@@ -142,11 +111,7 @@ const SortProductList = ({ queryConfig, pageSize }: Props) => {
                   stroke='currentColor'
                   className='w-3 h-3'
                 >
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    d='M15.75 19.5 8.25 12l7.5-7.5'
-                  />
+                  <path strokeLinecap='round' strokeLinejoin='round' d='M15.75 19.5 8.25 12l7.5-7.5' />
                 </svg>
               </span>
             ) : (
@@ -168,11 +133,7 @@ const SortProductList = ({ queryConfig, pageSize }: Props) => {
                   stroke='currentColor'
                   className='w-3 h-3'
                 >
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    d='M15.75 19.5 8.25 12l7.5-7.5'
-                  />
+                  <path strokeLinecap='round' strokeLinejoin='round' d='M15.75 19.5 8.25 12l7.5-7.5' />
                 </svg>
               </Link>
             )}
@@ -186,11 +147,7 @@ const SortProductList = ({ queryConfig, pageSize }: Props) => {
                   stroke='currentColor'
                   className='w-3 h-3'
                 >
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    d='m8.25 4.5 7.5 7.5-7.5 7.5'
-                  />
+                  <path strokeLinecap='round' strokeLinejoin='round' d='m8.25 4.5 7.5 7.5-7.5 7.5' />
                 </svg>
               </span>
             ) : (
@@ -212,11 +169,7 @@ const SortProductList = ({ queryConfig, pageSize }: Props) => {
                   stroke='currentColor'
                   className='size-3'
                 >
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    d='m8.25 4.5 7.5 7.5-7.5 7.5'
-                  />
+                  <path strokeLinecap='round' strokeLinejoin='round' d='m8.25 4.5 7.5 7.5-7.5 7.5' />
                 </svg>
               </Link>
             )}

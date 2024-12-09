@@ -26,14 +26,11 @@ const Register = (): JSX.Element => {
     //getValues
     formState: { errors } //bắt lỗi ở errors này
   } = useForm<FormData>({
-    resolver: yupResolver(
-      schema.pick(['email', 'confirm_password', 'password'])
-    )
+    resolver: yupResolver(schema.pick(['email', 'confirm_password', 'password']))
   })
 
   const registerMutation = useMutation({
-    mutationFn: (body: Omit<FormData, 'confirm_password'>) =>
-      authApi.registerAccount(body)
+    mutationFn: (body: Omit<FormData, 'confirm_password'>) => authApi.registerAccount(body)
   })
 
   const onSubmit = handleSubmit((data) => {
@@ -45,11 +42,7 @@ const Register = (): JSX.Element => {
         navigate('/')
       },
       onError: (error) => {
-        if (
-          isAxiosUnprocessableEntityError<
-            ErrorResponse<Omit<FormData, 'confirm_password'>>
-          >(error)
-        ) {
+        if (isAxiosUnprocessableEntityError<ErrorResponse<Omit<FormData, 'confirm_password'>>>(error)) {
           const formError = error.response?.data.data
 
           // if (formError) {
@@ -85,11 +78,7 @@ const Register = (): JSX.Element => {
       <div className='container'>
         <div className='grid grid-cols-1 lg:grid-cols-5 py-12 lg:py-32 lg:pr-10'>
           <div className='lg:col-span-2 lg:col-start-4'>
-            <form
-              className='p-10 rounded bg-white shadow-sm'
-              onSubmit={onSubmit}
-              noValidate
-            >
+            <form className='p-10 rounded bg-white shadow-sm' onSubmit={onSubmit} noValidate>
               <div className='text-2xl'>Đăng ký</div>
               <Input
                 name='email'

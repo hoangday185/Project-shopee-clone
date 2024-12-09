@@ -36,7 +36,6 @@ module.exports = {
   },
   rules: {
     // Tắt rule yêu cầu import React trong file jsx
-    '@typescript-eslint/no-explicit-any': 'warn',
     'react/react-in-jsx-scope': 'off',
     // Cảnh báo khi thẻ <a target='_blank'> mà không có rel="noreferrer"
     'react/jsx-no-target-blank': 'warn',
@@ -45,6 +44,7 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': 'warn',
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
+    '@typescript-eslint/no-explicit-any': 'error',
     'prettier/prettier': [
       'warn',
       {
@@ -55,7 +55,7 @@ module.exports = {
         endOfLine: 'auto',
         useTabs: false,
         singleQuote: true,
-        printWidth: 80,
+        printWidth: 120,
         jsxSingleQuote: true
       }
     ]

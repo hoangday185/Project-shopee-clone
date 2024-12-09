@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
 import productApi from 'src/apis/product.api'
 import RatingStar from 'src/components/RatingStar/RatingStar'
@@ -11,11 +11,11 @@ import useQueryConfig from 'src/hooks/useQueryConfig'
 import Product from '../ProductList/Component/Product'
 import QuantityController from 'src/components/QuantityController'
 import purchaseApi from 'src/apis/purchase.api'
-import { queryClient } from 'src/main'
 import { purchasesStatus } from 'src/constants/purchase'
 import { toast } from 'react-toastify'
 
 const ProductDetail = () => {
+  const queryClient = useQueryClient()
   const { nameId } = useParams()
   const queryConfig = useQueryConfig()
   const id = generateIdFormNameId(nameId as string)
@@ -25,9 +25,7 @@ const ProductDetail = () => {
   })
   const imageRef = useRef<HTMLImageElement>(null)
   //tạo current index image để set active cho ảnh và lấy ra 5 ảnh đầu tiên
-  const [currentIndexImage, setCurrentIndexImage] = useState<[number, number]>([
-    0, 5
-  ])
+  const [currentIndexImage, setCurrentIndexImage] = useState<[number, number]>([0, 5])
   const [imageActive, setImageActive] = useState<string>('')
   const [buyCount, setBuyCount] = useState<number>(1)
 
@@ -45,8 +43,7 @@ const ProductDetail = () => {
   }, [product])
 
   const addToCartMutation = useMutation({
-    mutationFn: (body: { product_id: string; buy_count: number }) =>
-      purchaseApi.addToCart(body)
+    mutationFn: (body: { product_id: string; buy_count: number }) => purchaseApi.addToCart(body)
   })
 
   const onChooseImage = (image: string) => {
@@ -116,7 +113,7 @@ const ProductDetail = () => {
         onSuccess: (data) => {
           toast.success(data.data.message)
           queryClient.invalidateQueries({
-            queryKey: ['purchases', purchasesStatus.inCart]
+            queryKey: ['purchases', { status: purchasesStatus.inCart }]
           })
         }
       }
@@ -155,29 +152,19 @@ const ProductDetail = () => {
                     stroke='currentColor'
                     className='size-5'
                   >
-                    <path
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
-                      d='M15.75 19.5 8.25 12l7.5-7.5'
-                    />
+                    <path strokeLinecap='round' strokeLinejoin='round' d='M15.75 19.5 8.25 12l7.5-7.5' />
                   </svg>
                 </button>
                 {currentImages.map((image) => {
                   const isActive = imageActive === image
                   return (
-                    <div
-                      className='relative w-full pt-[100%]'
-                      key={image}
-                      onMouseEnter={() => onChooseImage(image)}
-                    >
+                    <div className='relative w-full pt-[100%]' key={image} onMouseEnter={() => onChooseImage(image)}>
                       <img
                         className='absolute top-0 left-0 bg-white w-full h-full object-cover'
                         src={image}
                         alt={product.name}
                       />
-                      {isActive && (
-                        <div className='absolute inset-0 border-2 border-orange'></div>
-                      )}
+                      {isActive && <div className='absolute inset-0 border-2 border-orange'></div>}
                     </div>
                   )
                 })}
@@ -193,11 +180,7 @@ const ProductDetail = () => {
                     stroke='currentColor'
                     className='size-5'
                   >
-                    <path
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
-                      d='m8.25 4.5 7.5 7.5-7.5 7.5'
-                    />
+                    <path strokeLinecap='round' strokeLinejoin='round' d='m8.25 4.5 7.5 7.5-7.5 7.5' />
                   </svg>
                 </button>
               </div>
@@ -206,9 +189,7 @@ const ProductDetail = () => {
               <h1 className='text-xl font-medium uppercase'>{product.name}</h1>
               <div className='mt-8 flex items-center'>
                 <div className='flex items-center'>
-                  <span className='mr-1 border-b border-b-orange text-orange'>
-                    {product.rating}
-                  </span>
+                  <span className='mr-1 border-b border-b-orange text-orange'>{product.rating}</span>
                   <RatingStar
                     rating={Number(product.rating)}
                     activeClassName='fill-orange text-orange h-4 w-4'
@@ -222,15 +203,10 @@ const ProductDetail = () => {
                 </div>
               </div>
               <div className='mt-8 flex items-center bg-gray-50 px-5 py-4'>
-                <div className='text-gray-500 line-through'>
-                  đ{formatPrice(product.price_before_discount)}
-                </div>
-                <div className='ml-3 text-3xl text-orange font-medium'>
-                  đ{formatPrice(product.price)}
-                </div>
+                <div className='text-gray-500 line-through'>đ{formatPrice(product.price_before_discount)}</div>
+                <div className='ml-3 text-3xl text-orange font-medium'>đ{formatPrice(product.price)}</div>
                 <div className='ml-4 rounded-sm bg-orange px-1 py-[2px] text-sm font-semibold uppercase text-white'>
-                  {rateSale(product.price_before_discount, product.price)} giảm
-                  giá
+                  {rateSale(product.price_before_discount, product.price)} giảm giá
                 </div>
               </div>
               <div className='mt-8 flex items-center gap-1'>
@@ -242,9 +218,7 @@ const ProductDetail = () => {
                   onType={handleBuyCount}
                   value={buyCount}
                 />
-                <div className='ml-6 text-sm text-gray-500'>
-                  {product.quantity} sản phẩm có sẵn
-                </div>
+                <div className='ml-6 text-sm text-gray-500'>{product.quantity} sản phẩm có sẵn</div>
               </div>
               <div className='mt-8 flex items-center'>
                 <button
@@ -277,9 +251,7 @@ const ProductDetail = () => {
       </div>
       <div className='container'>
         <div className='mt-8 bg-white p-4 shadow'>
-          <div className='rounded bg-gray-50 p-4 text-lg capitalize text-slate-700'>
-            Mô tả sản phẩm
-          </div>
+          <div className='rounded bg-gray-50 p-4 text-lg capitalize text-slate-700'>Mô tả sản phẩm</div>
           <div className='mx-4 mt-12 mb-4 text-sm leading-loose'>
             <div
               dangerouslySetInnerHTML={{
@@ -294,9 +266,7 @@ const ProductDetail = () => {
         <div className='uppercase'>Có thể bạn cũng thích</div>
         <div className='mt-6 grid gird-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3'>
           {productData &&
-            productData.data.data.products.map((product) => (
-              <Product product={product} key={product._id} />
-            ))}
+            productData.data.data.products.map((product) => <Product product={product} key={product._id} />)}
         </div>
       </div>
     </div>

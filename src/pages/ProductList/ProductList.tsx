@@ -38,25 +38,16 @@ const ProductList = () => {
         {productData && (
           <div className='grid grid-cols-12 gap-6'>
             <div className='col-span-3'>
-              <AsideFilter
-                queryConfig={queryConfig}
-                categories={categoriesData?.data.data || []}
-              />
+              <AsideFilter queryConfig={queryConfig} categories={categoriesData?.data.data || []} />
             </div>
             <div className='col-span-9'>
-              <SortProductList
-                queryConfig={queryConfig}
-                pageSize={productData.data.data.pagination.page_size}
-              />
+              <SortProductList queryConfig={queryConfig} pageSize={productData.data.data.pagination.page_size} />
               <div className='mt-6 grid gird-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3'>
                 {productData.data.data.products.map((product) => (
                   <Product product={product} key={product._id} />
                 ))}
               </div>
-              <Pagination
-                queryConfig={queryConfig}
-                pageSize={productData.data.data.pagination.page_size}
-              />
+              <Pagination queryConfig={queryConfig} pageSize={productData.data.data.pagination.page_size} />
             </div>
           </div>
         )}

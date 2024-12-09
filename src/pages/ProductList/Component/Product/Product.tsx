@@ -11,21 +11,13 @@ interface ProductProps {
 
 const Product = ({ product }: ProductProps) => {
   return (
-    <Link
-      to={`${path.home}${generateNameId({ name: product.name, id: product._id })}`}
-    >
+    <Link to={`${path.home}${generateNameId({ name: product.name, id: product._id })}`}>
       <div className='bg-white shadow rounded-sm hover:translate-y-[-0.04rem] hover:shadow-md duration-100 transition-transform overflow-hidden'>
         <div className='w-full pt-[100%] relative'>
-          <img
-            className='absolute top-0 left-0 bg-white w-full h-full object-cover'
-            src={product.images[0]}
-            alt=''
-          />
+          <img className='absolute top-0 left-0 bg-white w-full h-full object-cover' src={product.images[0]} alt='' />
         </div>
         <div className='p-2 overflow-hidden'>
-          <div className='min-h-[2rem] line-clamp-2 text-xs'>
-            {product.name}
-          </div>
+          <div className='min-h-[2rem] line-clamp-2 text-xs'>{product.name}</div>
           <div className='flex items-center mt-3'>
             <div className='line-through max-w-[50%] text-gray truncate'>
               đ{formatPrice(product.price_before_discount)}

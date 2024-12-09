@@ -1,12 +1,4 @@
-import {
-  FloatingArrow,
-  FloatingPortal,
-  Placement,
-  arrow,
-  offset,
-  shift,
-  useFloating
-} from '@floating-ui/react'
+import { FloatingArrow, FloatingPortal, Placement, arrow, offset, shift, useFloating } from '@floating-ui/react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ElementType, useId, useRef, useState } from 'react'
 
@@ -43,12 +35,7 @@ const Popover = ({
     setOpen(false)
   }
   return (
-    <Element
-      className={className}
-      ref={refs.setReference}
-      onMouseEnter={showPopover}
-      onMouseLeave={hidePopover}
-    >
+    <Element className={className} ref={refs.setReference} onMouseEnter={showPopover} onMouseLeave={hidePopover}>
       {children}
       <FloatingPortal id={id}>
         <AnimatePresence>

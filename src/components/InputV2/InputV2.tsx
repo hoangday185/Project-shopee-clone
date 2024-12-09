@@ -1,10 +1,5 @@
 import { InputHTMLAttributes, useState } from 'react'
-import {
-  FieldPath,
-  FieldValues,
-  useController,
-  UseControllerProps
-} from 'react-hook-form'
+import { FieldPath, FieldValues, useController, UseControllerProps } from 'react-hook-form'
 
 export type InputNumberProps<
   TFieldValues extends FieldValues = FieldValues,
@@ -37,9 +32,7 @@ const InputV2 = <
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const valueFromInput = event.target.value
-    const numberCondition =
-      type === 'number' &&
-      (/^\d+$/.test(valueFromInput) || valueFromInput === '') //check xem có nhập vào number ko
+    const numberCondition = type === 'number' && (/^\d+$/.test(valueFromInput) || valueFromInput === '') //check xem có nhập vào number ko
     //type khác number ko cho nhập luôn
     if (numberCondition || type !== 'number') {
       //ko có onchange thì vẫn set lại giá trị cho localValue thì component vẫn re-render
@@ -52,13 +45,7 @@ const InputV2 = <
   }
   return (
     <div className={className}>
-      <input
-        className={classNameInput}
-        {...rest}
-        {...field}
-        onChange={handleChange}
-        value={value || localValue}
-      />
+      <input className={classNameInput} {...rest} {...field} onChange={handleChange} value={value || localValue} />
       <div className={classNameError}>{fieldState.error?.message}</div>
     </div>
   )

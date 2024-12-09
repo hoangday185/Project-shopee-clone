@@ -62,8 +62,7 @@ export const getRules = (getValues?: UseFormGetValues<FormValues>): Rules => ({
     },
     validate:
       typeof getValues === 'function'
-        ? (value) =>
-            value === getValues('password') || 'Password nhập lại không đúng'
+        ? (value) => value === getValues('password') || 'Password nhập lại không đúng'
         : undefined
   }
 })

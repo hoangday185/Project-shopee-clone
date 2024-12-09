@@ -9,8 +9,7 @@ export const clearLocalStorage = (): void => {
   localStorage.removeItem('profile')
 }
 
-export const getAccessTokenFromLS = (): string =>
-  localStorage.getItem('access_token') || ''
+export const getAccessTokenFromLS = (): string => localStorage.getItem('access_token') || ''
 
 export const getProfileFormLS = (): User | null => {
   const profile = localStorage.getItem('profile')

@@ -1,9 +1,5 @@
 import { SuccessResponse } from './../@types/utils.type'
-import {
-  Product,
-  ProductList,
-  ProductListConfig
-} from 'src/@types/product.types'
+import { Product, ProductList, ProductListConfig } from 'src/@types/product.types'
 import http from 'src/utils/http'
 
 const URL = '/products'

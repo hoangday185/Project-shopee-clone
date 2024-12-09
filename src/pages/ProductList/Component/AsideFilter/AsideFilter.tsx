@@ -61,14 +61,7 @@ const AsideFilter = ({ queryConfig, categories }: Props) => {
   const handleRemoveAll = () => [
     navigate({
       pathname: path.home,
-      search: createSearchParams(
-        omit(queryConfig, [
-          'rating_filter',
-          'price_max',
-          'price_min',
-          'category'
-        ])
-      ).toString()
+      search: createSearchParams(omit(queryConfig, ['rating_filter', 'price_max', 'price_min', 'category'])).toString()
     })
   ]
 
@@ -114,10 +107,7 @@ const AsideFilter = ({ queryConfig, categories }: Props) => {
                 })}
               >
                 {isActive && (
-                  <svg
-                    viewBox='0 0 4 7'
-                    className='fill-orange h-2 w-2 absolute top-1 left-[-10px]'
-                  >
+                  <svg viewBox='0 0 4 7' className='fill-orange h-2 w-2 absolute top-1 left-[-10px]'>
                     <polygon points='4 3.5 0 0 0 7' />
                   </svg>
                 )}
@@ -127,10 +117,7 @@ const AsideFilter = ({ queryConfig, categories }: Props) => {
           )
         })}
       </ul>
-      <Link
-        to={path.home}
-        className='flex items-center font-bold mt-4 uppercase'
-      >
+      <Link to={path.home} className='flex items-center font-bold mt-4 uppercase'>
         <svg
           enableBackground='new 0 0 15 15'
           viewBox='0 0 15 15'
@@ -213,9 +200,7 @@ const AsideFilter = ({ queryConfig, categories }: Props) => {
             />
           </div>
 
-          <div className='mt-1 text-red-600 text-sm min-h-[1.25rem] text-center'>
-            {errors.price_min?.message}
-          </div>
+          <div className='mt-1 text-red-600 text-sm min-h-[1.25rem] text-center'>{errors.price_min?.message}</div>
           <Button className='w-full p-2 uppercase bg-orange text-white hover:bg-orange/80 flex justify-center items-center'>
             Áp dụng
           </Button>

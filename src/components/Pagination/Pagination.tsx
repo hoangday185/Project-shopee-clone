@@ -34,10 +34,7 @@ export default function Pagination({ queryConfig, pageSize }: Props) {
       if (!dotBefore) {
         dotBefore = true
         return (
-          <span
-            key={index}
-            className='bg-white rounded px-3 py-2 shadow-sm mx-2 border'
-          >
+          <span key={index} className='bg-white rounded px-3 py-2 shadow-sm mx-2 border'>
             ...
           </span>
         )
@@ -48,10 +45,7 @@ export default function Pagination({ queryConfig, pageSize }: Props) {
       if (!dotAfter) {
         dotAfter = true
         return (
-          <span
-            key={index}
-            className='bg-white rounded px-3 py-2 shadow-sm mx-2 border'
-          >
+          <span key={index} className='bg-white rounded px-3 py-2 shadow-sm mx-2 border'>
             ...
           </span>
         )
@@ -78,18 +72,11 @@ export default function Pagination({ queryConfig, pageSize }: Props) {
           if (pageNumber < page - RANGE && pageNumber > RANGE) {
             //nếu số page bé hơn page  hiện tại - range và page > 2 thì renderDotBefore
             return renderDotBefore(index)
-          } else if (
-            pageNumber > page + RANGE &&
-            pageNumber < pageSize - RANGE + 1
-          ) {
+          } else if (pageNumber > page + RANGE && pageNumber < pageSize - RANGE + 1) {
             //page lớn hơn page hiện  tại cộng  range và page bé hơn pageSize - 1
             return renderDotAfter(index)
           }
-        } else if (
-          page >= pageSize - RANGE * 2 &&
-          pageNumber > RANGE &&
-          pageNumber < page - RANGE
-        ) {
+        } else if (page >= pageSize - RANGE * 2 && pageNumber > RANGE && pageNumber < page - RANGE) {
           //page hiện tại >= lớn hơn page size
           // page lớn hơn range
           // page bé page hiện  trừ range
@@ -106,13 +93,10 @@ export default function Pagination({ queryConfig, pageSize }: Props) {
               }).toString()
             }}
             key={index}
-            className={classNames(
-              'bg-white rounded px-3 py-2 shadow-sm mx-2 cursor-pointer border',
-              {
-                'border-cyan-500': pageNumber === page,
-                'border-transparent': pageNumber !== page
-              }
-            )}
+            className={classNames('bg-white rounded px-3 py-2 shadow-sm mx-2 cursor-pointer border', {
+              'border-cyan-500': pageNumber === page,
+              'border-transparent': pageNumber !== page
+            })}
           >
             {pageNumber}
           </Link>
@@ -122,9 +106,7 @@ export default function Pagination({ queryConfig, pageSize }: Props) {
   return (
     <div className='flex flex-wrap mt-6 justify-center'>
       {page === 1 ? (
-        <span className='bg-white/60 rounded px-3 py-2 shadow-sm mx-2 cursor-not-allowed border'>
-          Prev
-        </span>
+        <span className='bg-white/60 rounded px-3 py-2 shadow-sm mx-2 cursor-not-allowed border'>Prev</span>
       ) : (
         <Link
           to={{
@@ -141,9 +123,7 @@ export default function Pagination({ queryConfig, pageSize }: Props) {
       )}
       {renderPagination()}
       {page === pageSize ? (
-        <span className='bg-white/60 rounded px-3 py-2 shadow-sm mx-2 cursor-not-allowed border'>
-          Next
-        </span>
+        <span className='bg-white/60 rounded px-3 py-2 shadow-sm mx-2 cursor-not-allowed border'>Next</span>
       ) : (
         <Link
           to={{
