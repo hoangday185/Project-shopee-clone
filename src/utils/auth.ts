@@ -7,6 +7,8 @@ export const setAccessTokenToLS = (access_token: string): void => {
 export const clearLocalStorage = (): void => {
   localStorage.removeItem('access_token')
   localStorage.removeItem('profile')
+  const clearLSEvent = new Event('clearLS')
+  localStorageEventTarget.dispatchEvent(clearLSEvent)
 }
 
 export const getAccessTokenFromLS = (): string => localStorage.getItem('access_token') || ''
@@ -19,3 +21,5 @@ export const getProfileFormLS = (): User | null => {
 export const setProfileToLS = (profile: User): void => {
   localStorage.setItem('profile', JSON.stringify(profile))
 }
+
+export const localStorageEventTarget = new EventTarget()

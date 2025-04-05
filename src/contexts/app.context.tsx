@@ -16,6 +16,7 @@ interface AppContextInterface {
   setProfile: React.Dispatch<React.SetStateAction<User | null>>
   extendedPurchaseList: ExtendedPurchaseList[]
   setExtendedPurchaseList: React.Dispatch<React.SetStateAction<ExtendedPurchaseList[]>>
+  handleExpireAccessToken: () => void
 }
 
 const initialAppContext: AppContextInterface = {
@@ -24,7 +25,8 @@ const initialAppContext: AppContextInterface = {
   profile: getProfileFormLS(),
   setProfile: () => null,
   extendedPurchaseList: [],
-  setExtendedPurchaseList: () => null
+  setExtendedPurchaseList: () => null,
+  handleExpireAccessToken: () => null
 }
 
 export const AppContext = createContext<AppContextInterface>(initialAppContext)
@@ -33,6 +35,13 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(initialAppContext.isAuthenticated)
   const [profile, setProfile] = useState<User | null>(initialAppContext.profile)
   const [extendedPurchaseList, setExtendedPurchaseList] = useState<ExtendedPurchaseList[]>([])
+
+  const handleExpireAccessToken = () => {
+    setIsAuthenticated(false)
+    setProfile(null)
+    setExtendedPurchaseList([])
+  }
+
   return (
     <AppContext.Provider
       value={{
@@ -41,7 +50,8 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         profile,
         setProfile,
         extendedPurchaseList,
-        setExtendedPurchaseList
+        setExtendedPurchaseList,
+        handleExpireAccessToken
       }}
     >
       {children}
