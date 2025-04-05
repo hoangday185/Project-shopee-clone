@@ -1,5 +1,5 @@
 const Profile = () => {
-  return <div>cc</div>
-}
+  return <div>cc</div>;
+};
 
-export default Profile
+export default Profile;

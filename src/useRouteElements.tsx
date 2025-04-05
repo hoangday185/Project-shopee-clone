@@ -1,25 +1,28 @@
-import { Navigate, Outlet, useRoutes } from 'react-router-dom'
-import ProductList from './pages/ProductList'
-import Login from './pages/Login'
-import Register from './pages/Register'
-import RegisterLayout from './layouts/RegisterLayout'
-import MainLayout from './layouts/MainLayout'
-import Profile from './pages/Profile'
-import { AppContext } from './contexts/app.context'
-import { useContext } from 'react'
-import path from './constants/path'
-import ProductDetail from './pages/ProductDetail'
-import Cart from './components/Cart'
-import CartLayout from './layouts/CartLayout/CartLayout'
+import { useContext } from 'react';
+import { Navigate, Outlet, useRoutes } from 'react-router-dom';
+import Cart from './components/Cart';
+import path from './constants/path';
+import { AppContext } from './contexts/app.context';
+import CartLayout from './layouts/CartLayout/CartLayout';
+import MainLayout from './layouts/MainLayout';
+import RegisterLayout from './layouts/RegisterLayout';
+import Login from './pages/Login';
+import ProductDetail from './pages/ProductDetail';
+import ProductList from './pages/ProductList';
+import Profile from './pages/Profile';
+import Register from './pages/Register';
+import ChangePassword from './pages/User/ChangePassword/ChangePassword';
+import HistoryPurchase from './pages/User/HistoryPurchase';
+import UserLayout from './pages/User/Layout/UserLayout';
 
 function ProtectedRoute() {
-  const { isAuthenticated } = useContext(AppContext)
-  return isAuthenticated ? <Outlet /> : <Navigate to='/login' />
+  const { isAuthenticated } = useContext(AppContext);
+  return isAuthenticated ? <Outlet /> : <Navigate to='/login' />;
 }
 
 function RejectedRoute() {
-  const { isAuthenticated } = useContext(AppContext)
-  return !isAuthenticated ? <Outlet /> : <Navigate to='/' />
+  const { isAuthenticated } = useContext(AppContext);
+  return !isAuthenticated ? <Outlet /> : <Navigate to='/' />;
 }
 
 const useRouteElements = () => {
@@ -47,20 +50,35 @@ const useRouteElements = () => {
       element: <ProtectedRoute />,
       children: [
         {
-          path: path.profile,
-          element: (
-            <MainLayout>
-              <Profile />
-            </MainLayout>
-          )
-        },
-        {
           path: path.cart,
           element: (
             <CartLayout>
               <Cart />
             </CartLayout>
           )
+        },
+
+        {
+          path: path.user,
+          element: (
+            <MainLayout>
+              <UserLayout />
+            </MainLayout>
+          ),
+          children: [
+            {
+              path: path.profile,
+              element: <Profile />
+            },
+            {
+              path: path.historyPurchase,
+              element: <HistoryPurchase />
+            },
+            {
+              path: path.changePassword,
+              element: <ChangePassword />
+            }
+          ]
         }
       ]
     },
@@ -86,8 +104,8 @@ const useRouteElements = () => {
         }
       ]
     }
-  ])
-  return routeElements
-}
+  ]);
+  return routeElements;
+};
 
-export default useRouteElements
+export default useRouteElements;

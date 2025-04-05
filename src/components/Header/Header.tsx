@@ -1,22 +1,22 @@
-import { Link } from 'react-router-dom'
-import Popover from '../Popover'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query';
+import { Link } from 'react-router-dom';
+import Popover from '../Popover';
 
-import { AppContext } from 'src/contexts/app.context'
-import { useContext } from 'react'
-import path from 'src/constants/path'
+import { useContext } from 'react';
+import path from 'src/constants/path';
+import { AppContext } from 'src/contexts/app.context';
 
-import { purchasesStatus } from 'src/constants/purchase'
-import purchaseApi from 'src/apis/purchase.api'
-import { PurchaseStatus } from 'src/@types/purchase.types'
-import noproduct from 'src/assets/images/no-product.png'
-import { formatPrice } from 'src/utils/formatNumber'
-import NavHeader from '../NavHeader'
-import useSearchProducts from 'src/hooks/useSearchProducts'
+import { PurchaseStatus } from 'src/@types/purchase.types';
+import purchaseApi from 'src/apis/purchase.api';
+import noproduct from 'src/assets/images/no-product.png';
+import { purchasesStatus } from 'src/constants/purchase';
+import useSearchProducts from 'src/hooks/useSearchProducts';
+import { formatPrice } from 'src/utils/formatNumber';
+import NavHeader from '../NavHeader';
 
-const MAX_PURCHASE = 5
+const MAX_PURCHASE = 5;
 const Header = () => {
-  const { isAuthenticated } = useContext(AppContext)
+  const { isAuthenticated } = useContext(AppContext);
 
   //bình thường nếu như chúng ta chuyển từ page product list sang page product detail
   //thì header và footer sẽ bị unmount và mounting again
@@ -32,11 +32,11 @@ const Header = () => {
         status: purchasesStatus.inCart as PurchaseStatus
       }),
     enabled: isAuthenticated
-  })
+  });
 
-  const purchasesInCart = purchasesInCartData?.data.data
+  const purchasesInCart = purchasesInCartData?.data.data;
 
-  const { register, onSubmitSearch } = useSearchProducts()
+  const { register, onSubmitSearch } = useSearchProducts();
 
   return (
     <div className='pb-5 pt-2 bg-orange text-white'>
@@ -152,9 +152,9 @@ const Header = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Header
-Header
+export default Header;
+Header;
 //bg-[linear-gradient(-180deg, #f53d2d, #f63)]  bug css

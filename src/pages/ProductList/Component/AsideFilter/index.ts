@@ -1,3 +1,3 @@
-import AsideFilter from './AsideFilter'
+import AsideFilter from './AsideFilter';
 
-export default AsideFilter
+export default AsideFilter;

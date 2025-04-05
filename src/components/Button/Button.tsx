@@ -1,11 +1,11 @@
-import { ButtonHTMLAttributes } from 'react'
+import { ButtonHTMLAttributes } from 'react';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  isLoading?: boolean
+  isLoading?: boolean;
 }
 const Button = (props: ButtonProps) => {
-  const { className, isLoading, disabled, children, ...rest } = props
-  const newClassName = disabled ? className + ' cursor-not-allowed' : className
+  const { className, isLoading, disabled, children, ...rest } = props;
+  const newClassName = disabled ? className + ' cursor-not-allowed' : className;
   return (
     <button className={newClassName} disabled={disabled} {...rest}>
       {isLoading && (
@@ -28,7 +28,7 @@ const Button = (props: ButtonProps) => {
       )}
       <span>{children}</span>
     </button>
-  )
-}
+  );
+};
 
-export default Button
+export default Button;

@@ -1,8 +1,8 @@
-import CartHeader from 'src/components/CartHeader'
-import Footer from 'src/components/Footer'
+import CartHeader from 'src/components/CartHeader';
+import Footer from 'src/components/Footer';
 
 interface CartLayoutProps {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
 const CartLayout = ({ children }: CartLayoutProps) => {
@@ -12,7 +12,7 @@ const CartLayout = ({ children }: CartLayoutProps) => {
       {children}
       <Footer />
     </div>
-  )
-}
+  );
+};
 
-export default CartLayout
+export default CartLayout;

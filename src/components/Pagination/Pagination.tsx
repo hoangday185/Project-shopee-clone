@@ -1,11 +1,11 @@
-import classNames from 'classnames'
-import { Link, createSearchParams } from 'react-router-dom'
-import path from 'src/constants/path'
-import { QueryConfig } from 'src/pages/ProductList/ProductList'
+import classNames from 'classnames';
+import { Link, createSearchParams } from 'react-router-dom';
+import path from 'src/constants/path';
+import { QueryConfig } from 'src/pages/ProductList/ProductList';
 
 interface Props {
-  queryConfig: QueryConfig
-  pageSize: number
+  queryConfig: QueryConfig;
+  pageSize: number;
 }
 
 /**
@@ -24,38 +24,38 @@ Với range = 2 áp dụng cho khoảng cách đầu, cuối và xung quanh curr
 1 2 ... 18 19 [20]
  */
 
-const RANGE = 2
+const RANGE = 2;
 export default function Pagination({ queryConfig, pageSize }: Props) {
-  const page = Number(queryConfig.page)
+  const page = Number(queryConfig.page);
   const renderPagination = () => {
-    let dotAfter = false
-    let dotBefore = false
+    let dotAfter = false;
+    let dotBefore = false;
     const renderDotBefore = (index: number) => {
       if (!dotBefore) {
-        dotBefore = true
+        dotBefore = true;
         return (
           <span key={index} className='bg-white rounded px-3 py-2 shadow-sm mx-2 border'>
             ...
           </span>
-        )
+        );
       }
-      return null
-    }
+      return null;
+    };
     const renderDotAfter = (index: number) => {
       if (!dotAfter) {
-        dotAfter = true
+        dotAfter = true;
         return (
           <span key={index} className='bg-white rounded px-3 py-2 shadow-sm mx-2 border'>
             ...
           </span>
-        )
+        );
       }
-      return null
-    }
+      return null;
+    };
     return Array(pageSize)
       .fill(0)
       .map((_, index) => {
-        const pageNumber = index + 1
+        const pageNumber = index + 1;
 
         // Điều kiện để return về ...
 
@@ -66,21 +66,21 @@ export default function Pagination({ queryConfig, pageSize }: Props) {
           pageNumber > page + RANGE &&
           pageNumber < pageSize - RANGE + 1
         ) {
-          return renderDotAfter(index)
+          return renderDotAfter(index);
         } else if (page > RANGE * 2 + 1 && page < pageSize - RANGE * 2) {
           //nếu page hiện tại  lớn 5, và page hiện tại < pagesize - 4
           if (pageNumber < page - RANGE && pageNumber > RANGE) {
             //nếu số page bé hơn page  hiện tại - range và page > 2 thì renderDotBefore
-            return renderDotBefore(index)
+            return renderDotBefore(index);
           } else if (pageNumber > page + RANGE && pageNumber < pageSize - RANGE + 1) {
             //page lớn hơn page hiện  tại cộng  range và page bé hơn pageSize - 1
-            return renderDotAfter(index)
+            return renderDotAfter(index);
           }
         } else if (page >= pageSize - RANGE * 2 && pageNumber > RANGE && pageNumber < page - RANGE) {
           //page hiện tại >= lớn hơn page size
           // page lớn hơn range
           // page bé page hiện  trừ range
-          return renderDotBefore(index)
+          return renderDotBefore(index);
         }
 
         return (
@@ -100,9 +100,9 @@ export default function Pagination({ queryConfig, pageSize }: Props) {
           >
             {pageNumber}
           </Link>
-        )
-      })
-  }
+        );
+      });
+  };
   return (
     <div className='flex flex-wrap mt-6 justify-center'>
       {page === 1 ? (
@@ -139,5 +139,5 @@ export default function Pagination({ queryConfig, pageSize }: Props) {
         </Link>
       )}
     </div>
-  )
+  );
 }

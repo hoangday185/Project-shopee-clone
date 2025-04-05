@@ -1,10 +1,10 @@
-import path from 'src/constants/path'
-import NavHeader from '../NavHeader'
-import { Link } from 'react-router-dom'
-import useSearchProducts from 'src/hooks/useSearchProducts'
+import { Link } from 'react-router-dom';
+import path from 'src/constants/path';
+import useSearchProducts from 'src/hooks/useSearchProducts';
+import NavHeader from '../NavHeader';
 
 const CartHeader = () => {
-  const { register, onSubmitSearch } = useSearchProducts()
+  const { register, onSubmitSearch } = useSearchProducts();
 
   return (
     <div className='border-b border-b-black/10'>
@@ -57,7 +57,7 @@ const CartHeader = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default CartHeader
+export default CartHeader;

@@ -7,16 +7,16 @@
  * Chúng  ta nhận ra là index start <  5 - index => màu vàng
  */
 
-import { createSearchParams, useNavigate } from 'react-router-dom'
-import path from 'src/constants/path'
-import { QueryConfig } from '../ProductList/ProductList'
+import { createSearchParams, useNavigate } from 'react-router-dom';
+import path from 'src/constants/path';
+import { QueryConfig } from '../ProductList/ProductList';
 
 interface Props {
-  queryConfig: QueryConfig
+  queryConfig: QueryConfig;
 }
 
 const RatingStarts = ({ queryConfig }: Props) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleFilterStar = (ratingFilter: number) => {
     navigate({
@@ -25,8 +25,8 @@ const RatingStarts = ({ queryConfig }: Props) => {
         ...queryConfig,
         rating_filter: String(ratingFilter)
       }).toString()
-    })
-  }
+    });
+  };
   return (
     <div>
       <ul className='my-3'>
@@ -71,7 +71,7 @@ const RatingStarts = ({ queryConfig }: Props) => {
                             </g>
                           </g>
                         </svg>
-                      )
+                      );
                     return (
                       <svg viewBox='0 0 30 30' className='mr-1 h-4 w-4' key={indexStar}>
                         <defs>
@@ -88,7 +88,7 @@ const RatingStarts = ({ queryConfig }: Props) => {
                           d='M23.226809 28.390899l-1.543364-9.5505903 6.600997-6.8291523-9.116272-1.4059447-4.01304-8.63019038-4.013041 8.63019038-9.116271 1.4059447 6.600997 6.8291523-1.543364 9.5505903 8.071679-4.5038874 8.071679 4.5038874z'
                         />
                       </svg>
-                    )
+                    );
                   })}
                 {index !== 0 && <span>Trở lên</span>}
               </div>
@@ -96,7 +96,7 @@ const RatingStarts = ({ queryConfig }: Props) => {
           ))}
       </ul>
     </div>
-  )
-}
+  );
+};
 
-export default RatingStarts
+export default RatingStarts;

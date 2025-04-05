@@ -1,9 +1,9 @@
-import Footer from 'src/components/Footer'
-import RegisterHeader from 'src/components/RegisterHeader'
+import Footer from 'src/components/Footer';
+import RegisterHeader from 'src/components/RegisterHeader';
 
 type RegisterLayoutProps = {
-  children?: React.ReactNode
-}
+  children?: React.ReactNode;
+};
 
 const RegisterLayout = ({ children }: RegisterLayoutProps): JSX.Element => {
   return (
@@ -12,7 +12,7 @@ const RegisterLayout = ({ children }: RegisterLayoutProps): JSX.Element => {
       {children}
       <Footer />
     </div>
-  )
-}
+  );
+};
 
-export default RegisterLayout
+export default RegisterLayout;

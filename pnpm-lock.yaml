@@ -120,9 +120,12 @@ importers:
       prettier:
         specifier: ^3.3.2
         version: 3.3.2
+      prettier-plugin-organize-imports:
+        specifier: ^4.1.0
+        version: 4.1.0(prettier@3.3.2)(typescript@5.5.2)
       prettier-plugin-tailwindcss:
         specifier: ^0.5.14
-        version: 0.5.14(prettier@3.3.2)
+        version: 0.5.14(prettier-plugin-organize-imports@4.1.0(prettier@3.3.2)(typescript@5.5.2))(prettier@3.3.2)
       tailwindcss:
         specifier: ^3.4.4
         version: 3.4.4
@@ -1824,6 +1827,16 @@ packages:
   prettier-linter-helpers@1.0.0:
     resolution: {integrity: sha512-GbK2cP9nraSSUF9N2XwUwqfzlAFlMNYYl+ShE/V+H8a9uNl/oUqB1w2EL54Jh0OlyRSd8RfWYJ3coVS4TROP2w==}
     engines: {node: '>=6.0.0'}
+
+  prettier-plugin-organize-imports@4.1.0:
+    resolution: {integrity: sha512-5aWRdCgv645xaa58X8lOxzZoiHAldAPChljr/MT0crXVOWTZ+Svl4hIWlz+niYSlO6ikE5UXkN1JrRvIP2ut0A==}
+    peerDependencies:
+      prettier: '>=2.0'
+      typescript: '>=2.9'
+      vue-tsc: ^2.1.0
+    peerDependenciesMeta:
+      vue-tsc:
+        optional: true
 
   prettier-plugin-tailwindcss@0.5.14:
     resolution: {integrity: sha512-Puaz+wPUAhFp8Lo9HuciYKM2Y2XExESjeT+9NQoVFXZsPPnc9VYss2SpxdQ6vbatmt8/4+SN0oe0I1cPDABg9Q==}
@@ -4128,9 +4141,16 @@ snapshots:
     dependencies:
       fast-diff: 1.3.0
 
-  prettier-plugin-tailwindcss@0.5.14(prettier@3.3.2):
+  prettier-plugin-organize-imports@4.1.0(prettier@3.3.2)(typescript@5.5.2):
     dependencies:
       prettier: 3.3.2
+      typescript: 5.5.2
+
+  prettier-plugin-tailwindcss@0.5.14(prettier-plugin-organize-imports@4.1.0(prettier@3.3.2)(typescript@5.5.2))(prettier@3.3.2):
+    dependencies:
+      prettier: 3.3.2
+    optionalDependencies:
+      prettier-plugin-organize-imports: 4.1.0(prettier@3.3.2)(typescript@5.5.2)
 
   prettier@3.3.2: {}
 

@@ -1,22 +1,22 @@
-import { createContext, useState } from 'react'
-import { Purchase } from 'src/@types/purchase.types'
-import { User } from 'src/@types/users.type'
+import { createContext, useState } from 'react';
+import { Purchase } from 'src/@types/purchase.types';
+import { User } from 'src/@types/users.type';
 
-import { getAccessTokenFromLS, getProfileFormLS } from 'src/utils/auth'
+import { getAccessTokenFromLS, getProfileFormLS } from 'src/utils/auth';
 
 export interface ExtendedPurchaseList extends Purchase {
-  disabled: boolean
-  checked: boolean
+  disabled: boolean;
+  checked: boolean;
 }
 
 interface AppContextInterface {
-  isAuthenticated: boolean
-  setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>
-  profile: User | null
-  setProfile: React.Dispatch<React.SetStateAction<User | null>>
-  extendedPurchaseList: ExtendedPurchaseList[]
-  setExtendedPurchaseList: React.Dispatch<React.SetStateAction<ExtendedPurchaseList[]>>
-  handleExpireAccessToken: () => void
+  isAuthenticated: boolean;
+  setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+  profile: User | null;
+  setProfile: React.Dispatch<React.SetStateAction<User | null>>;
+  extendedPurchaseList: ExtendedPurchaseList[];
+  setExtendedPurchaseList: React.Dispatch<React.SetStateAction<ExtendedPurchaseList[]>>;
+  handleExpireAccessToken: () => void;
 }
 
 const initialAppContext: AppContextInterface = {
@@ -27,20 +27,20 @@ const initialAppContext: AppContextInterface = {
   extendedPurchaseList: [],
   setExtendedPurchaseList: () => null,
   handleExpireAccessToken: () => null
-}
+};
 
-export const AppContext = createContext<AppContextInterface>(initialAppContext)
+export const AppContext = createContext<AppContextInterface>(initialAppContext);
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(initialAppContext.isAuthenticated)
-  const [profile, setProfile] = useState<User | null>(initialAppContext.profile)
-  const [extendedPurchaseList, setExtendedPurchaseList] = useState<ExtendedPurchaseList[]>([])
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(initialAppContext.isAuthenticated);
+  const [profile, setProfile] = useState<User | null>(initialAppContext.profile);
+  const [extendedPurchaseList, setExtendedPurchaseList] = useState<ExtendedPurchaseList[]>([]);
 
   const handleExpireAccessToken = () => {
-    setIsAuthenticated(false)
-    setProfile(null)
-    setExtendedPurchaseList([])
-  }
+    setIsAuthenticated(false);
+    setProfile(null);
+    setExtendedPurchaseList([]);
+  };
 
   return (
     <AppContext.Provider
@@ -56,5 +56,5 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     >
       {children}
     </AppContext.Provider>
-  )
-}
+  );
+};

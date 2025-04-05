@@ -1,24 +1,23 @@
-import { Link, createSearchParams, useNavigate } from 'react-router-dom'
-import Button from 'src/components/Button/Button'
-import path from 'src/constants/path'
-import { QueryConfig } from '../../ProductList'
-import { Category } from 'src/@types/category.types'
-import classNames from 'classnames'
-import RatingStarts from 'src/pages/RatingStarts'
-import { omit } from 'lodash'
-import InputNumber from 'src/components/InputNumber'
-import { useForm, Controller } from 'react-hook-form'
-import { Schema, schema } from 'src/utils/rules'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { NoUndefinedField } from 'src/utils/utils'
-import { ObjectSchema } from 'yup'
-import InputV2 from 'src/components/InputV2'
+import { yupResolver } from '@hookform/resolvers/yup';
+import classNames from 'classnames';
+import { omit } from 'lodash';
+import { Controller, useForm } from 'react-hook-form';
+import { Link, createSearchParams, useNavigate } from 'react-router-dom';
+import { Category } from 'src/@types/category.types';
+import Button from 'src/components/Button/Button';
+import InputNumber from 'src/components/InputNumber';
+import path from 'src/constants/path';
+import RatingStarts from 'src/pages/RatingStarts';
+import { Schema, schema } from 'src/utils/rules';
+import { NoUndefinedField } from 'src/utils/utils';
+import { ObjectSchema } from 'yup';
+import { QueryConfig } from '../../ProductList';
 interface Props {
-  queryConfig: QueryConfig
-  categories: Category[]
+  queryConfig: QueryConfig;
+  categories: Category[];
 }
 
-type FormData = NoUndefinedField<Pick<Schema, 'price_max' | 'price_min'>>
+type FormData = NoUndefinedField<Pick<Schema, 'price_max' | 'price_min'>>;
 
 /***
  * rule validate
@@ -26,11 +25,11 @@ type FormData = NoUndefinedField<Pick<Schema, 'price_max' | 'price_min'>>
  * còn không thì có price_min thì ko có price max và ngược lại
  */
 
-const priceSchema = schema.pick(['price_max', 'price_min'])
+const priceSchema = schema.pick(['price_max', 'price_min']);
 
 const AsideFilter = ({ queryConfig, categories }: Props) => {
-  const navigate = useNavigate()
-  const { category } = queryConfig
+  const navigate = useNavigate();
+  const { category } = queryConfig;
 
   const {
     control,
@@ -45,7 +44,7 @@ const AsideFilter = ({ queryConfig, categories }: Props) => {
     resolver: yupResolver(priceSchema as ObjectSchema<FormData>),
     shouldFocusError: false //mặc định là true
     //nhưng phải truyền ref thì mới focus vô đc
-  })
+  });
 
   const onSubmit = handleSubmit((data) => {
     navigate({
@@ -55,15 +54,15 @@ const AsideFilter = ({ queryConfig, categories }: Props) => {
         price_max: data.price_max,
         price_min: data.price_min
       }).toString()
-    })
-  })
+    });
+  });
 
   const handleRemoveAll = () => [
     navigate({
       pathname: path.home,
       search: createSearchParams(omit(queryConfig, ['rating_filter', 'price_max', 'price_min', 'category'])).toString()
     })
-  ]
+  ];
 
   return (
     <div className='py-4'>
@@ -91,7 +90,7 @@ const AsideFilter = ({ queryConfig, categories }: Props) => {
       <div className='bg-gray-300 h-[1px] my-4' />
       <ul>
         {categories.map((categoryItem) => {
-          const isActive = category === categoryItem._id
+          const isActive = category === categoryItem._id;
           return (
             <li className='py-2 pl-2' key={categoryItem._id}>
               <Link
@@ -114,7 +113,7 @@ const AsideFilter = ({ queryConfig, categories }: Props) => {
                 {categoryItem.name}
               </Link>
             </li>
-          )
+          );
         })}
       </ul>
       <Link to={path.home} className='flex items-center font-bold mt-4 uppercase'>
@@ -154,13 +153,13 @@ const AsideFilter = ({ queryConfig, categories }: Props) => {
                     classNameError='hidden'
                     classNameInput='p-1 text-sm w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
                     onChange={(event) => {
-                      field.onChange(event)
-                      trigger('price_max')
+                      field.onChange(event);
+                      trigger('price_max');
                     }}
                     value={field.value}
                     ref={field.ref}
                   />
-                )
+                );
               }}
             />
 
@@ -191,11 +190,11 @@ const AsideFilter = ({ queryConfig, categories }: Props) => {
                     classNameInput='p-1 text-sm w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
                     {...field}
                     onChange={(event) => {
-                      field.onChange(event)
-                      trigger('price_max')
+                      field.onChange(event);
+                      trigger('price_max');
                     }}
                   />
-                )
+                );
               }}
             />
           </div>
@@ -217,7 +216,7 @@ const AsideFilter = ({ queryConfig, categories }: Props) => {
         Xóa tất cả
       </Button>
     </div>
-  )
-}
+  );
+};
 
-export default AsideFilter
+export default AsideFilter;

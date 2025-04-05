@@ -1,17 +1,17 @@
-import { SuccessResponse } from './../@types/utils.type'
-import { Product, ProductList, ProductListConfig } from 'src/@types/product.types'
-import http from 'src/utils/http'
+import { Product, ProductList, ProductListConfig } from 'src/@types/product.types';
+import http from 'src/utils/http';
+import { SuccessResponse } from './../@types/utils.type';
 
-const URL = '/products'
+const URL = '/products';
 const productApi = {
   getProducts(params: ProductListConfig) {
     return http.get<SuccessResponse<ProductList>>(URL, {
       params
-    })
+    });
   },
   getProductDetail(id: string) {
-    return http.get<SuccessResponse<Product>>(`${URL}/${id}`)
+    return http.get<SuccessResponse<Product>>(`${URL}/${id}`);
   }
-}
+};
 
-export default productApi
+export default productApi;

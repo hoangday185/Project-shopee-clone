@@ -1,5 +1,5 @@
-import InputNumber from './InputNumber'
+import InputNumber from './InputNumber';
 
-export default InputNumber
+export default InputNumber;
 
-export * from './InputNumber'
+export * from './InputNumber';

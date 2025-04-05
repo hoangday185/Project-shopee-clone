@@ -1,7 +1,7 @@
 interface RatingStar {
-  rating: number
-  activeClassName?: string
-  nonActiveClassName?: string
+  rating: number;
+  activeClassName?: string;
+  nonActiveClassName?: string;
 }
 
 const RatingStar = ({
@@ -11,12 +11,12 @@ const RatingStar = ({
 }: RatingStar) => {
   const handleWidth = (order: number): string => {
     if (order <= rating) {
-      return '100%'
+      return '100%';
     } else if (order > rating && order - rating < 1) {
-      return (rating - Math.floor(rating)) * 100 + '%'
+      return (rating - Math.floor(rating)) * 100 + '%';
     }
-    return '0%'
-  }
+    return '0%';
+  };
 
   return (
     <div className='flex items-center'>
@@ -45,7 +45,7 @@ const RatingStar = ({
           </div>
         ))}
     </div>
-  )
-}
+  );
+};
 
-export default RatingStar
+export default RatingStar;

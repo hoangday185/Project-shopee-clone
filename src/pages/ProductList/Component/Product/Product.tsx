@@ -1,12 +1,12 @@
-import { Link } from 'react-router-dom'
-import { Product as ProductType } from 'src/@types/product.types'
-import RatingStar from 'src/components/RatingStar/RatingStar'
-import path from 'src/constants/path'
-import { formatNumberSold, formatPrice } from 'src/utils/formatNumber'
-import { generateNameId } from 'src/utils/utils'
+import { Link } from 'react-router-dom';
+import { Product as ProductType } from 'src/@types/product.types';
+import RatingStar from 'src/components/RatingStar/RatingStar';
+import path from 'src/constants/path';
+import { formatNumberSold, formatPrice } from 'src/utils/formatNumber';
+import { generateNameId } from 'src/utils/utils';
 
 interface ProductProps {
-  product: ProductType
+  product: ProductType;
 }
 
 const Product = ({ product }: ProductProps) => {
@@ -37,7 +37,7 @@ const Product = ({ product }: ProductProps) => {
         </div>
       </div>
     </Link>
-  )
-}
+  );
+};
 
-export default Product
+export default Product;

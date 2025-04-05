@@ -1,3 +1,3 @@
-import CartHeader from './CartHeader'
+import CartHeader from './CartHeader';
 
-export default CartHeader
+export default CartHeader;

@@ -1,36 +1,36 @@
-import { keepPreviousData, useQuery } from '@tanstack/react-query'
-import AsideFilter from './Component/AsideFilter'
-import Product from './Component/Product/Product'
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import AsideFilter from './Component/AsideFilter';
+import Product from './Component/Product/Product';
 
-import productApi from 'src/apis/product.api'
-import Pagination from 'src/components/Pagination'
-import { ProductListConfig } from 'src/@types/product.types'
-import categoryApi from 'src/apis/category.api'
-import SortProductList from './Component/SortProductList'
-import useQueryConfig from 'src/hooks/useQueryConfig'
+import { ProductListConfig } from 'src/@types/product.types';
+import categoryApi from 'src/apis/category.api';
+import productApi from 'src/apis/product.api';
+import Pagination from 'src/components/Pagination';
+import useQueryConfig from 'src/hooks/useQueryConfig';
+import SortProductList from './Component/SortProductList';
 
 export type QueryConfig = {
-  [key in keyof ProductListConfig]: string
-}
+  [key in keyof ProductListConfig]: string;
+};
 
 const ProductList = () => {
-  const queryConfig: QueryConfig = useQueryConfig()
+  const queryConfig: QueryConfig = useQueryConfig();
 
   const { data: productData } = useQuery({
     queryKey: ['products', queryConfig],
     queryFn: () => {
-      return productApi.getProducts(queryConfig as ProductListConfig)
+      return productApi.getProducts(queryConfig as ProductListConfig);
     },
     placeholderData: keepPreviousData,
     staleTime: 3 * 60 * 1000
-  })
+  });
 
   const { data: categoriesData } = useQuery({
     queryKey: ['categories'],
     queryFn: () => {
-      return categoryApi.getCategories()
+      return categoryApi.getCategories();
     }
-  })
+  });
 
   return (
     <div className='bg-gray-200 py-6'>
@@ -53,7 +53,7 @@ const ProductList = () => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ProductList
+export default ProductList;

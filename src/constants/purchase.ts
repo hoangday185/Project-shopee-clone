@@ -6,4 +6,4 @@ export const purchasesStatus = {
   inProgress: 3,
   delivered: 4,
   cancelled: 5
-}
+};

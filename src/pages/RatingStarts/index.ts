@@ -1,3 +1,3 @@
-import RatingStarts from './RatingStarts'
+import RatingStarts from './RatingStarts';
 
-export default RatingStarts
+export default RatingStarts;

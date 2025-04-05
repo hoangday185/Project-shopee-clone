@@ -1,9 +1,9 @@
-import { isUndefined, omitBy } from 'lodash'
-import { QueryConfig } from 'src/pages/ProductList/ProductList'
-import useQueryParams from './useQueryParams'
+import { isUndefined, omitBy } from 'lodash';
+import { QueryConfig } from 'src/pages/ProductList/ProductList';
+import useQueryParams from './useQueryParams';
 
 const useQueryConfig = () => {
-  const queryParams: QueryConfig = useQueryParams()
+  const queryParams: QueryConfig = useQueryParams();
   const queryConfig: QueryConfig = omitBy(
     {
       page: queryParams.page || '1',
@@ -18,8 +18,8 @@ const useQueryConfig = () => {
       category: queryParams.category
     },
     isUndefined
-  )
-  return queryConfig
-}
+  );
+  return queryConfig;
+};
 
-export default useQueryConfig
+export default useQueryConfig;

@@ -1,8 +1,8 @@
-import { Link, useMatch } from 'react-router-dom'
+import { Link, useMatch } from 'react-router-dom';
 
 const RegisterHeader = () => {
-  const registerMath = useMatch('/register')
-  const isRegister = Boolean(registerMath)
+  const registerMath = useMatch('/register');
+  const isRegister = Boolean(registerMath);
   return (
     <header className='py-5'>
       <div className='max-w-7xl mx-auto px-4'>
@@ -18,7 +18,7 @@ const RegisterHeader = () => {
         </nav>
       </div>
     </header>
-  )
-}
+  );
+};
 
-export default RegisterHeader
+export default RegisterHeader;

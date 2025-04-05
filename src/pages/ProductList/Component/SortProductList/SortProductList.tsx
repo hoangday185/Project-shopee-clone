@@ -1,23 +1,23 @@
-import { sortBy, order as OrderConstant } from 'src/constants/product'
-import classNames from 'classnames'
-import { ProductListConfig } from 'src/@types/product.types'
-import { Link, createSearchParams, useNavigate } from 'react-router-dom'
-import path from 'src/constants/path'
-import { omit } from 'lodash'
-import { QueryConfig } from '../../ProductList'
+import classNames from 'classnames';
+import { omit } from 'lodash';
+import { Link, createSearchParams, useNavigate } from 'react-router-dom';
+import { ProductListConfig } from 'src/@types/product.types';
+import path from 'src/constants/path';
+import { order as OrderConstant, sortBy } from 'src/constants/product';
+import { QueryConfig } from '../../ProductList';
 
 interface Props {
-  queryConfig: QueryConfig
-  pageSize: number
+  queryConfig: QueryConfig;
+  pageSize: number;
 }
 
 const SortProductList = ({ queryConfig, pageSize }: Props) => {
-  const page = Number(queryConfig.page)
-  const { sort_by = sortBy.createdAt, order } = queryConfig
-  const navigate = useNavigate()
+  const page = Number(queryConfig.page);
+  const { sort_by = sortBy.createdAt, order } = queryConfig;
+  const navigate = useNavigate();
   const isActiveSortBy = (sortByValue: Exclude<ProductListConfig['sort_by'], undefined>) => {
-    return sort_by === sortByValue
-  }
+    return sort_by === sortByValue;
+  };
 
   const handleSort = (sortByValue: Exclude<ProductListConfig['sort_by'], undefined>) => () => {
     navigate({
@@ -31,8 +31,8 @@ const SortProductList = ({ queryConfig, pageSize }: Props) => {
           ['order']
         )
       ).toString() //loại  bỏ order khỏi query param
-    })
-  }
+    });
+  };
 
   const handlePriceOrder = (orderValue: Exclude<ProductListConfig['order'], undefined>) => {
     navigate({
@@ -42,8 +42,8 @@ const SortProductList = ({ queryConfig, pageSize }: Props) => {
         sort_by: sortBy.price,
         order: orderValue
       }).toString()
-    })
-  }
+    });
+  };
   return (
     <div className='bg-gray-300/40 py-4 px-3'>
       <div className='flex flex-wrap items-center justify-between gap-2'>
@@ -177,7 +177,7 @@ const SortProductList = ({ queryConfig, pageSize }: Props) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default SortProductList
+export default SortProductList;

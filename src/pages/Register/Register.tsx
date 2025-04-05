@@ -1,23 +1,23 @@
-import { useForm } from 'react-hook-form'
-import { Link, useNavigate } from 'react-router-dom'
-import Input from 'src/components/Input'
-import { Schema, schema } from 'src/utils/rules'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { useMutation } from '@tanstack/react-query'
-import { omit } from 'lodash'
-import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
-import { ErrorResponse } from 'src/@types/utils.type'
-import { useContext } from 'react'
-import { AppContext } from 'src/contexts/app.context'
-import Button from 'src/components/Button/Button'
-import path from 'src/constants/path'
-import authApi from 'src/apis/auth.api'
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useMutation } from '@tanstack/react-query';
+import { omit } from 'lodash';
+import { useContext } from 'react';
+import { useForm } from 'react-hook-form';
+import { Link, useNavigate } from 'react-router-dom';
+import { ErrorResponse } from 'src/@types/utils.type';
+import authApi from 'src/apis/auth.api';
+import Button from 'src/components/Button/Button';
+import Input from 'src/components/Input';
+import path from 'src/constants/path';
+import { AppContext } from 'src/contexts/app.context';
+import { Schema, schema } from 'src/utils/rules';
+import { isAxiosUnprocessableEntityError } from 'src/utils/utils';
 
-type FormData = Pick<Schema, 'email' | 'password' | 'confirm_password'>
+type FormData = Pick<Schema, 'email' | 'password' | 'confirm_password'>;
 
 const Register = (): JSX.Element => {
-  const { setIsAuthenticated, setProfile } = useContext(AppContext)
-  const navigate = useNavigate()
+  const { setIsAuthenticated, setProfile } = useContext(AppContext);
+  const navigate = useNavigate();
   const {
     //watch, //thằng này cùi ỉa làm component re-render
     register, //callback cung cấp thông tin cho react-hook-form
@@ -27,23 +27,23 @@ const Register = (): JSX.Element => {
     formState: { errors } //bắt lỗi ở errors này
   } = useForm<FormData>({
     resolver: yupResolver(schema.pick(['email', 'confirm_password', 'password']))
-  })
+  });
 
   const registerMutation = useMutation({
     mutationFn: (body: Omit<FormData, 'confirm_password'>) => authApi.registerAccount(body)
-  })
+  });
 
   const onSubmit = handleSubmit((data) => {
-    const body = omit(data, ['confirm_password'])
+    const body = omit(data, ['confirm_password']);
     registerMutation.mutate(body, {
       onSuccess: (data) => {
-        setIsAuthenticated(true)
-        setProfile(data.data.data.user)
-        navigate('/')
+        setIsAuthenticated(true);
+        setProfile(data.data.data.user);
+        navigate('/');
       },
       onError: (error) => {
         if (isAxiosUnprocessableEntityError<ErrorResponse<Omit<FormData, 'confirm_password'>>>(error)) {
-          const formError = error.response?.data.data
+          const formError = error.response?.data.data;
 
           // if (formError) {
           //   Object.keys(formError).forEach((key) => {
@@ -59,19 +59,19 @@ const Register = (): JSX.Element => {
             setError('email', {
               message: formError.email,
               type: 'Server'
-            })
+            });
           }
 
           if (formError?.password) {
             setError('password', {
               message: formError.password,
               type: 'Server'
-            })
+            });
           }
         }
       }
-    })
-  })
+    });
+  });
 
   return (
     <div className='bg-orange'>
@@ -128,7 +128,7 @@ const Register = (): JSX.Element => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Register
+export default Register;

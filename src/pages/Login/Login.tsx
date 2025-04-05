@@ -1,24 +1,24 @@
-import { yupResolver } from '@hookform/resolvers/yup'
-import { useMutation } from '@tanstack/react-query'
-import { useContext } from 'react'
-import { useForm } from 'react-hook-form'
-import { Link, useNavigate } from 'react-router-dom'
-import { ErrorResponse } from 'src/@types/utils.type'
-import authApi from 'src/apis/auth.api'
-import Button from 'src/components/Button/Button'
-import Input from 'src/components/Input'
-import path from 'src/constants/path'
-import { AppContext } from 'src/contexts/app.context'
-import { Schema, schema } from 'src/utils/rules'
-import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useMutation } from '@tanstack/react-query';
+import { useContext } from 'react';
+import { useForm } from 'react-hook-form';
+import { Link, useNavigate } from 'react-router-dom';
+import { ErrorResponse } from 'src/@types/utils.type';
+import authApi from 'src/apis/auth.api';
+import Button from 'src/components/Button/Button';
+import Input from 'src/components/Input';
+import path from 'src/constants/path';
+import { AppContext } from 'src/contexts/app.context';
+import { Schema, schema } from 'src/utils/rules';
+import { isAxiosUnprocessableEntityError } from 'src/utils/utils';
 
-type FormData = Pick<Schema, 'email' | 'password'>
+type FormData = Pick<Schema, 'email' | 'password'>;
 
-const loginSchema = schema.pick(['email', 'password'])
+const loginSchema = schema.pick(['email', 'password']);
 
 const Login = () => {
-  const { setIsAuthenticated, setProfile } = useContext(AppContext)
-  const navigate = useNavigate()
+  const { setIsAuthenticated, setProfile } = useContext(AppContext);
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -26,30 +26,30 @@ const Login = () => {
     formState: { errors }
   } = useForm<FormData>({
     resolver: yupResolver(loginSchema)
-  })
+  });
 
   const loginMutation = useMutation({
     mutationFn: (body: FormData) => authApi.login(body)
-  })
+  });
 
   const onSubmit = handleSubmit((data) => {
     loginMutation.mutate(data, {
       onSuccess: (data) => {
-        setIsAuthenticated(true)
-        setProfile(data.data.data.user)
-        navigate('/')
+        setIsAuthenticated(true);
+        setProfile(data.data.data.user);
+        navigate('/');
       },
       onError: (error) => {
         if (isAxiosUnprocessableEntityError<ErrorResponse<FormData>>(error)) {
-          const formError = error.response?.data.data
+          const formError = error.response?.data.data;
 
           if (formError) {
             Object.keys(formError).forEach((key) => {
               setError(key as keyof FormData, {
                 message: formError[key as keyof FormData],
                 type: 'Server'
-              })
-            })
+              });
+            });
           }
 
           // if (formError?.email) {
@@ -67,8 +67,8 @@ const Login = () => {
           // }
         }
       }
-    })
-  })
+    });
+  });
 
   return (
     <div className='bg-orange'>
@@ -116,7 +116,7 @@ const Login = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

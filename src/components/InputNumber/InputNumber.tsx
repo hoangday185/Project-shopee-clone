@@ -1,9 +1,9 @@
-import { InputHTMLAttributes, forwardRef, useState } from 'react'
+import { InputHTMLAttributes, forwardRef, useState } from 'react';
 
 export interface InputNumberProps extends InputHTMLAttributes<HTMLInputElement> {
-  errorMessage?: string
-  classNameInput?: string
-  classNameError?: string
+  errorMessage?: string;
+  classNameInput?: string;
+  classNameError?: string;
 }
 
 const InputNumber = forwardRef<HTMLInputElement, InputNumberProps>(function InputNumberInner(
@@ -18,21 +18,21 @@ const InputNumber = forwardRef<HTMLInputElement, InputNumberProps>(function Inpu
   },
   ref
 ): JSX.Element {
-  const [localValue, setLocalValue] = useState<string>(value as string)
+  const [localValue, setLocalValue] = useState<string>(value as string);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target
+    const { value } = event.target;
     if (/^\d+$/.test(value) || value === '') {
       //thực thi onchange callback từ bên ngoài trền vào props
-      onChange && onChange(event)
+      onChange && onChange(event);
       //ko có onchange thì vẫn set lại giá trị cho localValue thì component vẫn re-render
-      setLocalValue(value)
+      setLocalValue(value);
     }
-  }
+  };
   return (
     <div className={className}>
       <input className={classNameInput} {...rest} onChange={handleChange} value={value || localValue} ref={ref} />
       <div className={classNameError}>{errorMessage}</div>
     </div>
-  )
-})
-export default InputNumber
+  );
+});
+export default InputNumber;

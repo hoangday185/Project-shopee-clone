@@ -1,14 +1,14 @@
-import { FloatingArrow, FloatingPortal, Placement, arrow, offset, shift, useFloating } from '@floating-ui/react'
-import { AnimatePresence, motion } from 'framer-motion'
-import { ElementType, useId, useRef, useState } from 'react'
+import { FloatingArrow, FloatingPortal, Placement, arrow, offset, shift, useFloating } from '@floating-ui/react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { ElementType, useId, useRef, useState } from 'react';
 
 interface PopoverProps {
-  children: React.ReactNode
-  renderPopover: React.ReactNode
-  className?: string
-  as?: ElementType //custom tag bọc popover
-  initialOpen?: boolean
-  placement?: Placement
+  children: React.ReactNode;
+  renderPopover: React.ReactNode;
+  className?: string;
+  as?: ElementType; //custom tag bọc popover
+  initialOpen?: boolean;
+  placement?: Placement;
 }
 
 const Popover = ({
@@ -19,21 +19,21 @@ const Popover = ({
   initialOpen,
   placement = 'bottom-end'
 }: PopoverProps) => {
-  const [open, setOpen] = useState<boolean>(initialOpen || false)
-  const arrowRef = useRef(null)
+  const [open, setOpen] = useState<boolean>(initialOpen || false);
+  const arrowRef = useRef(null);
   const { x, y, refs, context, strategy } = useFloating({
     middleware: [offset(6), shift(), arrow({ element: arrowRef })],
     placement: placement
-  })
+  });
 
-  const id = useId()
+  const id = useId();
   const showPopover = () => {
-    setOpen(true)
-  }
+    setOpen(true);
+  };
 
   const hidePopover = () => {
-    setOpen(false)
-  }
+    setOpen(false);
+  };
   return (
     <Element className={className} ref={refs.setReference} onMouseEnter={showPopover} onMouseLeave={hidePopover}>
       {children}
@@ -66,7 +66,7 @@ const Popover = ({
         </AnimatePresence>
       </FloatingPortal>
     </Element>
-  )
-}
+  );
+};
 
-export default Popover
+export default Popover;
