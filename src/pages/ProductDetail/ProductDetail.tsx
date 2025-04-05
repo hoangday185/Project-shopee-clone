@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import productApi from 'src/apis/product.api'
 import RatingStar from 'src/components/RatingStar/RatingStar'
 import { formatNumberSold, formatPrice } from 'src/utils/formatNumber'
@@ -13,8 +13,10 @@ import QuantityController from 'src/components/QuantityController'
 import purchaseApi from 'src/apis/purchase.api'
 import { purchasesStatus } from 'src/constants/purchase'
 import { toast } from 'react-toastify'
+import path from 'src/constants/path'
 
 const ProductDetail = () => {
+  const nav = useNavigate()
   const queryClient = useQueryClient()
   const { nameId } = useParams()
   const queryConfig = useQueryConfig()
@@ -120,6 +122,20 @@ const ProductDetail = () => {
     )
   }
 
+  const buyNow = async () => {
+    const res = await purchaseApi.addToCart({
+      product_id: product?._id as string,
+      buy_count: buyCount
+    })
+
+    const data = res.data.data
+    nav(path.cart, {
+      state: {
+        purchase_id: data._id as string
+      }
+    })
+  }
+
   if (!product) return null
   return (
     <div className='bg-gray-200 py-6'>
@@ -217,6 +233,7 @@ const ProductDetail = () => {
                   onDecrease={handleBuyCount}
                   onType={handleBuyCount}
                   value={buyCount}
+                  onFocusOut={handleBuyCount}
                 />
                 <div className='ml-6 text-sm text-gray-500'>{product.quantity} sản phẩm có sẵn</div>
               </div>
@@ -241,7 +258,10 @@ const ProductDetail = () => {
                   </svg>
                   Thêm vào giỏ hàng
                 </button>
-                <button className='ml-4 flex h-12 min-w-[5rem] items-center justify-center rounded-sm bg-orange px-5 capitalize text-white shadow-sm outline-none hover:bg-orange/90'>
+                <button
+                  onClick={buyNow}
+                  className='ml-4 flex h-12 min-w-[5rem] items-center justify-center rounded-sm bg-orange px-5 capitalize text-white shadow-sm outline-none hover:bg-orange/90'
+                >
                   Mua ngay
                 </button>
               </div>
