@@ -40,13 +40,13 @@ const UserSideNav = () => {
           </div>
           Tài khoản của tôi
         </Link>
-        <Link to={path.profile} className='mt-4 flex items-center capitalize text-gray-600 transition-colors '>
+        <Link to={path.changePassword} className='mt-4 flex items-center capitalize text-gray-600 transition-colors '>
           <div className='h-[22px] w-[22px] mr-3'>
             <img src='https://cf.shopee.vn/file/ba61750a46794d8847c3f463c5e71cc4' className='h-full w-full' alt='' />
           </div>
           Đổi mật khẩu
         </Link>
-        <Link to={path.profile} className='mt-4 flex items-center capitalize text-gray-600 transition-colors '>
+        <Link to={path.historyPurchase} className='mt-4 flex items-center capitalize text-gray-600 transition-colors '>
           <div className='h-[22px] w-[22px] mr-3'>
             <img src='https://cf.shopee.vn/file/f0049e9df4e536bc3e7f140d071e9078' className='h-full w-full' alt='' />
           </div>
