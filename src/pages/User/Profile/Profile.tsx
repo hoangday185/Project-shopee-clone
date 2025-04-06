@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import userApi from 'src/apis/user.api';
@@ -7,6 +7,7 @@ import Button from 'src/components/Button/Button';
 import Input from 'src/components/Input';
 import InputNumber from 'src/components/InputNumber';
 import { userSchema, UserSchema } from 'src/utils/rules';
+import DateSelect from '../Components/DateSelect';
 
 type FormData = Pick<UserSchema, 'name' | 'phone' | 'address' | 'date_of_birth' | 'avatar'>;
 const profileSchema = userSchema.pick(['name', 'phone', 'address', 'date_of_birth', 'avatar']);
@@ -17,6 +18,7 @@ const Profile = () => {
     setError,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors }
   } = useForm<FormData>({
     defaultValues: {
@@ -27,6 +29,10 @@ const Profile = () => {
       avatar: ''
     },
     resolver: yupResolver(profileSchema)
+  });
+
+  const updateProfileMutation = useMutation({
+    mutationFn: userApi.updateProfile
   });
 
   const { data: profileData } = useQuery({
@@ -45,13 +51,20 @@ const Profile = () => {
     }
   }, [profile, setValue]);
 
+  const onSubmit = handleSubmit(async (data) => {
+    // updateProfileMutation.mutateAsync(data, {});
+  });
+
+  const value = watch('date_of_birth');
+  console.log('value', value);
+
   return (
     <div className='rounded-sm bg-white px-2 md:px-7 pb-10 md:pb-20 shadow'>
       <div className='border-b border-b-gray-200  py-6'>
         <h1 className=' text-lg font-medium capitalize text-gray-900'>Hồ sơ của tôi</h1>
         <div className='mt-1 text-sm text-gray-700'>Quản lý thông tin hồ sơ để bảo mật thông tin</div>
       </div>
-      <form className='mt-8 flex flex-col-reverse md:flex-row md:items-start'>
+      <form className='mt-8 flex flex-col-reverse md:flex-row md:items-start' onSubmit={onSubmit}>
         <div className='mt-6 flex-grow md:pr-12 md:mt-0'>
           <div className='flex flex-wrap flex-col sm:flex-row'>
             <div className='sm:w-[20%] truncate pt-3 sm:text-right capitalize'>Email:</div>
@@ -83,6 +96,7 @@ const Profile = () => {
                     placeholder='Số điện thoại'
                     {...field}
                     onChange={field.onChange}
+                    errorMessage={errors.phone?.message}
                   />
                 )}
               />
@@ -100,22 +114,13 @@ const Profile = () => {
               />
             </div>
           </div>
-          <div className='mt-2 flex flex-wrap flex-col sm:flex-row'>
-            <div className='sm:w-[20%] truncate pt-3 sm:text-right capitalize'>Ngày sinh :</div>
-            <div className='sm:w-[80%] sm:pl-5'>
-              <div className='flex justify-between'>
-                <select name='' id='' className='h-10 w-[32%] border border-black/10 rounded-sm px-3'>
-                  <option disabled>Ngày</option>
-                </select>
-                <select name='' id='' className='h-10 w-[32%] border border-black/10 rounded-sm px-3'>
-                  <option disabled>Tháng</option>
-                </select>
-                <select name='' id='' className='h-10 w-[32%] border border-black/10 rounded-sm px-3'>
-                  <option disabled>Năm</option>
-                </select>
-              </div>
-            </div>
-          </div>
+          <Controller
+            control={control}
+            name='date_of_birth'
+            render={({ field }) => (
+              <DateSelect value={field.value} onChange={field.onChange} errorMessage={errors.date_of_birth?.message} />
+            )}
+          />
           <div className='mt-4 flex flex-wrap flex-col sm:flex-row'>
             <div className='sm:w-[20%] truncate pt-3 sm:text-right capitalize' />
             <div className='sm:w-[80%] sm:pl-5'>
