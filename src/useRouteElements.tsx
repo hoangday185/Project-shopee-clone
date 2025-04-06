@@ -9,11 +9,11 @@ import RegisterLayout from './layouts/RegisterLayout';
 import Login from './pages/Login';
 import ProductDetail from './pages/ProductDetail';
 import ProductList from './pages/ProductList';
-import Profile from './pages/Profile';
 import Register from './pages/Register';
 import ChangePassword from './pages/User/ChangePassword/ChangePassword';
 import HistoryPurchase from './pages/User/HistoryPurchase';
 import UserLayout from './pages/User/Layout/UserLayout';
+import Profile from './pages/User/Profile';
 
 function ProtectedRoute() {
   const { isAuthenticated } = useContext(AppContext);
