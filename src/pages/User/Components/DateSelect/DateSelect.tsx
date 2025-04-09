@@ -1,5 +1,5 @@
 import { range } from 'lodash';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface Props {
   onChange?: (value: Date) => void;
@@ -8,19 +8,35 @@ interface Props {
 }
 
 const DateSelect = ({ errorMessage, value, onChange }: Props) => {
-  const [date, setDate] = useState<{ day: number; month: number; year: number }>({
+  const [date, setDate] = useState({
     day: value?.getDate() || 1,
     month: value?.getMonth() || 0,
     year: value?.getFullYear() || 1990
   });
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const { name, value } = event.target;
-    const newValue = { ...date, [name]: value };
+    const { name, value: valueForm } = event.target;
+    const newValue = {
+      day: value?.getDate() || date.day,
+      month: value?.getMonth() || date.month,
+      year: value?.getFullYear() || date.year,
+
+      [name]: Number(valueForm)
+    };
     setDate(newValue);
 
     onChange && onChange(new Date(newValue.year, newValue.month, newValue.day));
   };
+
+  useEffect(() => {
+    if (value) {
+      setDate({
+        day: value?.getDate() || 1,
+        month: value?.getMonth() || 0,
+        year: value?.getFullYear() || 1990
+      });
+    }
+  }, [value]);
 
   return (
     <div className='mt-2 flex flex-wrap flex-col sm:flex-row'>

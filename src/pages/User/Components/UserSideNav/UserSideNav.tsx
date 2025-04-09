@@ -1,7 +1,10 @@
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import userImg from 'src/assets/user.svg';
 import path from 'src/constants/path';
-
+import { AppContext } from 'src/contexts/app.context';
 const UserSideNav = () => {
+  const { profile } = useContext(AppContext);
   return (
     <div>
       <div className='flex items-center border-b border-b-gray-200 py-4'>
@@ -13,7 +16,7 @@ const UserSideNav = () => {
           />
         </Link>
         <div className='flex-grow pl-4'>
-          <div className='mb-1 truncate font-semibold text-gray-600'>hoangday185</div>
+          <div className='mb-1 truncate font-semibold text-gray-600'>{profile?.email}</div>
           <Link to={path.profile} className='flex items-center capitalize '>
             <svg
               xmlns='http://www.w3.org/2000/svg'
@@ -36,7 +39,7 @@ const UserSideNav = () => {
       <div className='mt-7'>
         <Link to={path.profile} className='flex items-center capitalize text-orange transition-colors '>
           <div className='h-[22px] w-[22px] mr-3'>
-            <img src='https://cf.shopee.vn/file/ba61750a46794d8847c3f463c5e71cc4' className='h-full w-full' alt='' />
+            <img src={profile?.avatar || userImg} className='h-full w-full' alt='' />
           </div>
           Tài khoản của tôi
         </Link>

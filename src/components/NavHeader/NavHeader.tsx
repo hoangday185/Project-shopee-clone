@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import authApi from 'src/apis/auth.api';
+import userImg from 'src/assets/user.svg';
 import path from 'src/constants/path';
 import { purchasesStatus } from 'src/constants/purchase';
 import { AppContext } from 'src/contexts/app.context';
@@ -88,11 +89,7 @@ const NavHeader = () => {
           }
         >
           <div className='w-5 h-5 mr-2 flex-shrink-0'>
-            <img
-              src='https://avatars.githubusercontent.com/u/108289635?v=4'
-              alt='avatar'
-              className='w-full h-full object-cover rounded-full'
-            />
+            <img src={profile?.avatar || userImg} alt='avatar' className='w-full h-full object-cover rounded-full' />
           </div>
           <div>{profile?.email}</div>
         </Popover>

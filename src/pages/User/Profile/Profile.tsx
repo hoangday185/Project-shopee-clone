@@ -1,24 +1,27 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 import userApi from 'src/apis/user.api';
 import Button from 'src/components/Button/Button';
 import Input from 'src/components/Input';
 import InputNumber from 'src/components/InputNumber';
+import { AppContext } from 'src/contexts/app.context';
+import { setProfileToLS } from 'src/utils/auth';
 import { userSchema, UserSchema } from 'src/utils/rules';
 import DateSelect from '../Components/DateSelect';
 
 type FormData = Pick<UserSchema, 'name' | 'phone' | 'address' | 'date_of_birth' | 'avatar'>;
 const profileSchema = userSchema.pick(['name', 'phone', 'address', 'date_of_birth', 'avatar']);
 const Profile = () => {
+  const { setProfile } = useContext(AppContext);
   const {
     register,
     control,
     setError,
     handleSubmit,
     setValue,
-    watch,
     formState: { errors }
   } = useForm<FormData>({
     defaultValues: {
@@ -28,16 +31,16 @@ const Profile = () => {
       date_of_birth: new Date(1990, 0, 1),
       avatar: ''
     },
-    resolver: yupResolver(profileSchema)
+    resolver: yupResolver<FormData>(profileSchema)
+  });
+
+  const { data: profileData, refetch } = useQuery({
+    queryKey: ['profile'],
+    queryFn: userApi.getProfile
   });
 
   const updateProfileMutation = useMutation({
     mutationFn: userApi.updateProfile
-  });
-
-  const { data: profileData } = useQuery({
-    queryKey: ['profile'],
-    queryFn: userApi.getProfile
   });
 
   const profile = profileData?.data.data;
@@ -52,11 +55,15 @@ const Profile = () => {
   }, [profile, setValue]);
 
   const onSubmit = handleSubmit(async (data) => {
-    // updateProfileMutation.mutateAsync(data, {});
+    const res = await updateProfileMutation.mutateAsync({
+      ...data,
+      date_of_birth: data.date_of_birth ? data.date_of_birth.toISOString() : new Date(1990, 0, 1).toISOString()
+    });
+    setProfile(res.data.data);
+    setProfileToLS(res.data.data);
+    refetch();
+    toast.success(res.data.message);
   });
-
-  const value = watch('date_of_birth');
-  console.log('value', value);
 
   return (
     <div className='rounded-sm bg-white px-2 md:px-7 pb-10 md:pb-20 shadow'>
@@ -126,7 +133,7 @@ const Profile = () => {
             <div className='sm:w-[80%] sm:pl-5'>
               <Button
                 type={'submit'}
-                className='flex items-center h-9 bg-orange text-center text-sm text-white px-5 hover:bg-orange/80'
+                className='flex items-center h-9 bg-orange text-center text-sm text-white px-5 hover:bg-orange/80 rounded-sm'
               >
                 Lưu
               </Button>

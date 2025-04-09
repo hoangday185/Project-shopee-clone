@@ -4,7 +4,7 @@ export interface User {
   _id: string;
   roles: RoleType[];
   email: string;
-  name: string;
+  name?: string;
   date_of_birth?: string;
   avatar?: string;
   address?: string;
