@@ -1,6 +1,7 @@
 import axios, { AxiosError, type AxiosInstance } from 'axios';
 import { toast } from 'react-toastify';
 import { AuthResponse } from 'src/@types/auth.types';
+import config from 'src/constants/config';
 import HttpStatusCode from 'src/constants/httpStatusCode.enum';
 import { clearLocalStorage, getAccessTokenFromLS, setAccessTokenToLS, setProfileToLS } from './auth';
 
@@ -12,7 +13,7 @@ class Http {
     //vì khi mới vào app của chúng ta thì constructor này sẽ chạy đầu tiên và mỗi lần request lên thì ta sẽ có sẵn biến này
     //đỡ phải vào ls để lấy ra giúp tăng performance
     this.instance = axios.create({
-      baseURL: 'https://api-ecom.duthanhduoc.com/',
+      baseURL: config.baseUrl,
       timeout: 10000,
       headers: {
         'Content-Type': 'application/json'
