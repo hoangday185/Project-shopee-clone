@@ -7,6 +7,7 @@ import CartLayout from './layouts/CartLayout/CartLayout';
 import MainLayout from './layouts/MainLayout';
 import RegisterLayout from './layouts/RegisterLayout';
 import Login from './pages/Login';
+import NotFound from './pages/NotFound';
 import ProductDetail from './pages/ProductDetail';
 import ProductList from './pages/ProductList';
 import Register from './pages/Register';
@@ -103,6 +104,14 @@ const useRouteElements = () => {
           )
         }
       ]
+    },
+    {
+      path: '*',
+      element: (
+        <MainLayout>
+          <NotFound />
+        </MainLayout>
+      )
     }
   ]);
   return routeElements;

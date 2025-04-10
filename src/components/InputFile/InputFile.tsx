@@ -12,7 +12,7 @@ const InputFile = ({ onChange }: Props) => {
 
   const onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileFromLocal = e.target.files?.[0];
-    if (fileFromLocal && (fileFromLocal.size > config.maxFileSize || !fileFromLocal.type.includes('image'))) {
+    if (fileFromLocal && (fileFromLocal.size >= config.maxFileSize || !fileFromLocal.type.includes('image'))) {
       toast.error('File không hợp lệ!');
       return;
     }
