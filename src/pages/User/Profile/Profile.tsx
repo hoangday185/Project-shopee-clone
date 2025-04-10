@@ -1,11 +1,12 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { ErrorResponse } from 'src/@types/utils.type';
 import userApi from 'src/apis/user.api';
 import Button from 'src/components/Button/Button';
 import Input from 'src/components/Input';
+import InputFile from 'src/components/InputFile';
 import InputNumber from 'src/components/InputNumber';
 import { AppContext } from 'src/contexts/app.context';
 import { setProfileToLS } from 'src/utils/auth';
@@ -17,7 +18,6 @@ type FormData = Pick<UserSchema, 'name' | 'phone' | 'address' | 'date_of_birth' 
 type FormDataError = Omit<FormData, 'date_of_birth'> & { date_of_birth: string };
 const profileSchema = userSchema.pick(['name', 'phone', 'address', 'date_of_birth', 'avatar']);
 const Profile = () => {
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const [file, setFile] = useState<File>();
   const previewImage = useMemo(() => (file ? URL.createObjectURL(file) : ''), [file]);
   const { setProfile } = useContext(AppContext);
@@ -94,13 +94,8 @@ const Profile = () => {
     }
   });
 
-  const handleUpload = () => {
-    fileInputRef.current?.click();
-  };
-
-  const onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const fileFromLocal = e.target.files?.[0];
-    setFile(fileFromLocal);
+  const handleChangeFile = (file?: File) => {
+    setFile(file);
   };
 
   return (
@@ -187,14 +182,7 @@ const Profile = () => {
                 className='h-full w-full rounded-full object-cover'
               />
             </div>
-            <input type='file' accept='.jpg,.jpeg,.png' className='hidden' ref={fileInputRef} onChange={onFileChange} />
-            <button
-              className='mt-5 flex h-10 items-center justify-center rounded-sm border bg-white px-6 text-sm text-gray-600 shadow-sm'
-              type='button'
-              onClick={handleUpload}
-            >
-              Chọn ảnh
-            </button>
+            <InputFile onChange={handleChangeFile} />
             <div className='my-3 text-gray-400'>
               <div>Dung lượng file tối đa 1MB</div>
               <div>Định dạng: .JPEG, .PNG</div>

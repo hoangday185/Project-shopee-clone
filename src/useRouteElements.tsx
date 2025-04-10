@@ -59,7 +59,7 @@ const useRouteElements = () => {
         },
 
         {
-          path: path.user,
+          path: '',
           element: (
             <MainLayout>
               <UserLayout />

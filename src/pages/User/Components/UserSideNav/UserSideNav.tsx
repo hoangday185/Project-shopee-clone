@@ -1,5 +1,6 @@
+import classNames from 'classnames';
 import { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import path from 'src/constants/path';
 import { AppContext } from 'src/contexts/app.context';
 import { getAvatarUrl } from 'src/utils/utils';
@@ -33,24 +34,48 @@ const UserSideNav = () => {
         </div>
       </div>
       <div className='mt-7'>
-        <Link to={path.profile} className='flex items-center capitalize text-orange transition-colors '>
-          <div className='h-[22px] w-[22px] mr-3'>
-            <img src={getAvatarUrl(profile?.avatar)} className='h-full w-full' alt='' />
+        <NavLink
+          to={path.profile}
+          className={({ isActive }) =>
+            classNames('flex items-center capitalize transition-colors', {
+              'text-orange': isActive,
+              'text-gray-600': !isActive
+            })
+          }
+        >
+          <div className='h-[22px] w-[22px] mr-3 rounded-full'>
+            <img src={getAvatarUrl(profile?.avatar)} className='h-full w-full rounded-full' alt='' />
           </div>
           Tài khoản của tôi
-        </Link>
-        <Link to={path.changePassword} className='mt-4 flex items-center capitalize text-gray-600 transition-colors '>
+        </NavLink>
+        <NavLink
+          to={path.changePassword}
+          className={({ isActive }) =>
+            classNames('flex items-center capitalize transition-colors mt-4', {
+              'text-orange': isActive,
+              'text-gray-600': !isActive
+            })
+          }
+        >
           <div className='h-[22px] w-[22px] mr-3'>
             <img src='https://cf.shopee.vn/file/ba61750a46794d8847c3f463c5e71cc4' className='h-full w-full' alt='' />
           </div>
           Đổi mật khẩu
-        </Link>
-        <Link to={path.historyPurchase} className='mt-4 flex items-center capitalize text-gray-600 transition-colors '>
+        </NavLink>
+        <NavLink
+          to={path.historyPurchase}
+          className={({ isActive }) =>
+            classNames('flex items-center capitalize transition-colors mt-4', {
+              'text-orange': isActive,
+              'text-gray-600': !isActive
+            })
+          }
+        >
           <div className='h-[22px] w-[22px] mr-3'>
             <img src='https://cf.shopee.vn/file/f0049e9df4e536bc3e7f140d071e9078' className='h-full w-full' alt='' />
           </div>
           Đơn mua
-        </Link>
+        </NavLink>
       </div>
     </div>
   );
