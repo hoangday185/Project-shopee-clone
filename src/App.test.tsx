@@ -1,8 +1,9 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, MemoryRouter } from 'react-router-dom';
 import { describe, expect, test } from 'vitest';
 import App from './App';
+import { logScreen } from './utils/testUtils';
 
 describe('App', () => {
   test('App render và chuyển trang', async () => {
@@ -34,5 +35,19 @@ describe('App', () => {
     });
 
     screen.debug(document.body.parentElement as HTMLElement, 999999);
+  });
+
+  test('Về trang not found', async () => {
+    const badRoute = '/ahihi/do-cho';
+    render(
+      <MemoryRouter initialEntries={[badRoute]}>
+        <App />
+      </MemoryRouter>
+    );
+
+    // await waitFor(() => {
+    //   expect(screen.getByText(/Page not found/i));
+    // });
+    await logScreen();
   });
 });
