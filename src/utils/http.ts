@@ -29,9 +29,9 @@ class Http {
       baseURL: config.baseUrl,
       timeout: 10000,
       headers: {
-        'Content-Type': 'application/json',
-        'expire-access-token': 1,
-        'expire-refresh-token': 5
+        'Content-Type': 'application/json'
+        // 'expire-access-token': 1,
+        // 'expire-refresh-token': 5
       }
     });
     this.instance.interceptors.request.use(
