@@ -22,6 +22,9 @@ export default defineConfig({
     environment: 'jsdom',
     coverage: {
       provider: 'v8' // or 'v8'
-    }
+    },
+    testTimeout: 5000
+    // Hook timeout settings
+    // hookTimeout: 5000
   }
 });
