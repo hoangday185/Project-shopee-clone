@@ -35,7 +35,7 @@ const Input = ({
     return rest.type;
   };
   return (
-    <div className={className}>
+    <div className={'relative ' + className}>
       <input
         className={classNameInput}
         {...registerResult} //react hook form tự override lại name của tag input do khi chạy register

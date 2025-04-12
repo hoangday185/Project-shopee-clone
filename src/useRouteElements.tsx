@@ -12,13 +12,12 @@ import RegisterLayout from './layouts/RegisterLayout';
 // import Register from './pages/Register';
 // import ChangePassword from './pages/User/ChangePassword/ChangePassword';
 // import HistoryPurchase from './pages/User/HistoryPurchase';
-// import UserLayout from './pages/User/Layout/UserLayout';
+import UserLayout from './pages/User/Layout/UserLayout';
 // import Profile from './pages/User/Profile';
 
 const Login = lazy(() => import('./pages/Login'));
 const Cart = lazy(() => import('./components/Cart'));
 const Register = lazy(() => import('./pages/Register'));
-const UserLayout = lazy(() => import('./pages/User/Layout/UserLayout'));
 const ChangePassword = lazy(() => import('./pages/User/ChangePassword'));
 const HistoryPurchase = lazy(() => import('./pages/User/HistoryPurchase'));
 const Profile = lazy(() => import('./pages/User/Profile'));

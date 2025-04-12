@@ -95,6 +95,7 @@ const Register = (): JSX.Element => {
                 placeholder='Password'
                 type='password'
                 className='mt-2'
+                classNameEye='absolute right-[5px] top-[12px] cursor-pointer h-4 w-4'
                 errorMessage={errors.password?.message}
                 autoComplete='on'
               />
@@ -104,6 +105,7 @@ const Register = (): JSX.Element => {
                 placeholder='Confirm password'
                 type='password'
                 className='mt-2'
+                classNameEye='absolute right-[5px] top-[12px] cursor-pointer h-4 w-4'
                 errorMessage={errors.confirm_password?.message}
                 autoComplete='on'
               />

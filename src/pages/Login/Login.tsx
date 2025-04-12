@@ -92,6 +92,7 @@ const Login = () => {
                 placeholder='Password'
                 type='password'
                 className='mt-2'
+                classNameEye='absolute right-[5px] top-[12px] cursor-pointer h-4 w-4'
                 errorMessage={errors.password?.message}
                 autoComplete='on'
               />
