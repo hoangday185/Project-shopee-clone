@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import DOMPurify from 'dompurify';
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { ProductListConfig } from 'src/@types/product.types';
@@ -17,6 +18,7 @@ import Product from '../ProductList/Component/Product';
 
 const ProductDetail = () => {
   const nav = useNavigate();
+  const { t } = useTranslation('product');
   const queryClient = useQueryClient();
   const { nameId } = useParams();
   const queryConfig = useQueryConfig();
@@ -235,7 +237,9 @@ const ProductDetail = () => {
                   value={buyCount}
                   onFocusOut={handleBuyCount}
                 />
-                <div className='ml-6 text-sm text-gray-500'>{product.quantity} sản phẩm có sẵn</div>
+                <div className='ml-6 text-sm text-gray-500'>
+                  {product.quantity} {t('availabel')}
+                </div>
               </div>
               <div className='mt-8 flex items-center'>
                 <button
