@@ -101,6 +101,7 @@ const Login = () => {
                   isLoading={loginMutation.isPending}
                   disabled={loginMutation.isPending}
                   type='submit'
+                  name='login'
                   className='w-full text-center py-4 px-2 uppercase bg-red-500 text-white text-sm hover:bg-red-600 flex justify-center items-center'
                 >
                   Đăng nhập
