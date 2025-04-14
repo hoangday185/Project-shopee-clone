@@ -1,4 +1,3 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { useContext, useEffect } from 'react';
 import { ToastContainer } from 'react-toastify';
@@ -8,15 +7,6 @@ import ErrorBoundary from './components/ErrorBoundary';
 import { AppContext, AppProvider } from './contexts/app.context';
 import useRouteElements from './useRouteElements';
 import { localStorageEventTarget } from './utils/auth';
-
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: false,
-      retry: 0
-    }
-  }
-});
 
 function App() {
   const routeElements = useRouteElements();
@@ -30,16 +20,14 @@ function App() {
 
   return (
     <>
-      <QueryClientProvider client={queryClient}>
-        <AppProvider>
+      <AppProvider>
+        <ToastContainer />
+        <ErrorBoundary>
+          {routeElements}
           <ToastContainer />
-          <ErrorBoundary>
-            {routeElements}
-            <ToastContainer />
-          </ErrorBoundary>
-        </AppProvider>
-        <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
+        </ErrorBoundary>
+      </AppProvider>
+      <ReactQueryDevtools initialIsOpen={false} />
     </>
   );
 }

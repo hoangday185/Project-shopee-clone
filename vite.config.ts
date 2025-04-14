@@ -20,6 +20,7 @@ export default defineConfig({
   },
   test: {
     environment: 'jsdom',
+    setupFiles: path.resolve(__dirname, 'vitest.setup.js'),
     coverage: {
       provider: 'v8' // or 'v8'
     },
