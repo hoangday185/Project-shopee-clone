@@ -37,28 +37,40 @@ function RejectedRoute() {
 
 const useRouteElements = () => {
   const routeElements = useRoutes([
+    {
+      path: '',
+      element: <MainLayout />,
+      children: [
+        {
+          path: path.home,
+          index: true,
+          element: (
+            <Suspense>
+              <ProductList />
+            </Suspense>
+          )
+        },
+        {
+          path: path.productDetail,
+          element: (
+            <Suspense>
+              <ProductDetail />
+            </Suspense>
+          )
+        },
+        {
+          path: '*',
+          element: (
+            <Suspense>
+              <NotFound />
+            </Suspense>
+          )
+        }
+      ]
+    },
+
     //route này phải sắp xếp theo thứ tự, luôn check ở cái đầu tiên,để fix thì ta set index true là đc
-    {
-      path: path.home,
-      index: true,
-      element: (
-        <MainLayout>
-          <Suspense>
-            <ProductList />
-          </Suspense>
-        </MainLayout>
-      )
-    },
-    {
-      path: path.productDetail,
-      element: (
-        <MainLayout>
-          <Suspense>
-            <ProductDetail />
-          </Suspense>
-        </MainLayout>
-      )
-    },
+
     {
       path: '',
       element: <ProtectedRoute />,
@@ -76,75 +88,70 @@ const useRouteElements = () => {
 
         {
           path: path.user,
-          element: (
-            <MainLayout>
-              <UserLayout />
-            </MainLayout>
-          ),
+          element: <MainLayout />,
           children: [
             {
-              path: path.profile,
+              path: '',
+              element: <UserLayout />,
+              children: [
+                {
+                  path: path.profile,
+                  element: (
+                    <Suspense>
+                      <Profile />
+                    </Suspense>
+                  )
+                },
+                {
+                  path: path.historyPurchase,
+                  element: (
+                    <Suspense>
+                      <HistoryPurchase />
+                    </Suspense>
+                  )
+                },
+                {
+                  path: path.changePassword,
+                  element: (
+                    <Suspense>
+                      <ChangePassword />
+                    </Suspense>
+                  )
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      path: '',
+      element: <RejectedRoute />,
+      children: [
+        {
+          path: '',
+          element: <RegisterLayout />,
+          children: [
+            {
+              path: path.login,
               element: (
                 <Suspense>
-                  <Profile />
+                  <Login />
                 </Suspense>
               )
             },
             {
-              path: path.historyPurchase,
+              path: path.register,
               element: (
                 <Suspense>
-                  <HistoryPurchase />
-                </Suspense>
-              )
-            },
-            {
-              path: path.changePassword,
-              element: (
-                <Suspense>
-                  <ChangePassword />
+                  <Register />
                 </Suspense>
               )
             }
           ]
         }
       ]
-    },
-    {
-      path: '',
-      element: <RejectedRoute />,
-      children: [
-        {
-          path: path.login,
-          element: (
-            <RegisterLayout>
-              <Suspense>
-                <Login />
-              </Suspense>
-            </RegisterLayout>
-          )
-        },
-        {
-          path: path.register,
-          element: (
-            <RegisterLayout>
-              <Suspense>
-                <Register />
-              </Suspense>
-            </RegisterLayout>
-          )
-        }
-      ]
-    },
-    {
-      path: '*',
-      element: (
-        <MainLayout>
-          <Suspense>
-            <NotFound />
-          </Suspense>
-        </MainLayout>
-      )
     }
   ]);
   return routeElements;
