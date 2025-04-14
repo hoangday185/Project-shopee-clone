@@ -1,16 +1,17 @@
 import { InputHTMLAttributes, useState } from 'react';
-import { RegisterOptions, type UseFormRegister } from 'react-hook-form';
+import { FieldPath, FieldValues, RegisterOptions, type UseFormRegister } from 'react-hook-form';
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface InputProps<TFieldValues extends FieldValues> extends InputHTMLAttributes<HTMLInputElement> {
   errorMessage?: string;
   classNameInput?: string;
   classNameError?: string;
-  register?: UseFormRegister<any>;
-  rules?: RegisterOptions;
+  register?: UseFormRegister<TFieldValues>;
+  rules?: RegisterOptions<TFieldValues, FieldPath<TFieldValues>>;
   classNameEye?: string;
+  name: FieldPath<TFieldValues>;
 }
 
-const Input = ({
+const Input = <TFieldValues extends FieldValues>({
   errorMessage,
   name,
   className,
@@ -20,7 +21,7 @@ const Input = ({
   classNameError = 'mt-1 text-red-600 min-h-[1.25rem] text-sm',
   classNameEye = 'absolute right-[5px] top-[8px] cursor-pointer h-4 w-4',
   ...rest
-}: InputProps): JSX.Element => {
+}: InputProps<TFieldValues>): JSX.Element => {
   const registerResult = register && name ? register(name, rules) : null;
   const [openEye, setOpenEye] = useState(false);
 
