@@ -35,6 +35,7 @@ const AsideFilter = ({ queryConfig, categories }: Props) => {
   const {
     control,
     handleSubmit,
+    reset,
     trigger,
     formState: { errors }
   } = useForm<FormData>({
@@ -58,12 +59,13 @@ const AsideFilter = ({ queryConfig, categories }: Props) => {
     });
   });
 
-  const handleRemoveAll = () => [
+  const handleRemoveAll = () => {
+    reset();
     navigate({
       pathname: path.home,
       search: createSearchParams(omit(queryConfig, ['rating_filter', 'price_max', 'price_min', 'category'])).toString()
-    })
-  ];
+    });
+  };
 
   return (
     <div className='py-4'>
